@@ -135,6 +135,50 @@ details.season summary::-webkit-details-marker{display:none}
 .note code{font-size:12px;background:var(--raise);padding:1px 5px;border-radius:4px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
 .kv dt{color:var(--muted)} .kv dd{margin:0}
+.banner{position:relative;height:220px;overflow:hidden;background:var(--raise)}
+.banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.banner img.blur{filter:blur(18px) saturate(1.2);transform:scale(1.2)}
+.banner .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 35%,rgba(0,0,0,.75) 100%)}
+.bback{position:absolute;top:8px;left:max(6px,env(safe-area-inset-left,0px));color:#fff}
+.banner h1{position:absolute;left:0;right:0;bottom:14px;margin:0;color:#fff;font:700 32px/1.02 var(--display);text-wrap:balance;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.banner h1 span{font-weight:600;opacity:.85}
+.ptabs{position:sticky;top:0;z-index:3;display:flex;background:var(--surface);border-bottom:1px solid var(--line)}
+.ptabs button{flex:1;border:0;background:none;color:var(--muted);font:600 14px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:16px 0 13px;border-bottom:3px solid transparent;cursor:pointer}
+.ptabs button[aria-selected=true]{color:var(--fg);border-color:var(--accent)}
+.ptabs small{color:var(--accent);letter-spacing:0;margin-left:4px}
+.ov{display:grid;gap:4px}
+.nextup{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;margin-block:16px 8px}
+.nextup .t{flex:1;min-width:0;display:grid;gap:4px}
+.nextup .t div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.nextup b{font:700 17px/1 var(--display);color:var(--accent);letter-spacing:.03em}
+.nextup small{color:var(--muted);font-size:12px}
+.nextup .btn svg{width:18px;height:18px}
+.orow{display:flex;gap:18px;padding-block:12px;align-items:flex-start}
+.oi{width:24px;height:24px;flex:none;color:var(--accent);margin-top:1px}
+.oi svg{width:24px;height:24px}
+.stars{display:flex;align-items:center;gap:2px;font-size:20px;color:var(--line);margin-bottom:8px}
+.stars .on{color:var(--accent)}
+.stars .half{background:linear-gradient(90deg,var(--accent) 50%,var(--line) 50%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars small{font-size:13px;color:var(--muted);margin-left:8px;font-variant-numeric:tabular-nums}
+.sum{margin:0;max-width:65ch;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+.sum.open{display:block}
+.pbar{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.pbar .track{flex:1;height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.pbar .track span{display:block;height:100%;background:var(--accent)}
+.pbar b{font-variant-numeric:tabular-nums;font-weight:600}
+.cast{display:grid;gap:4px}
+.person{display:flex;align-items:center;gap:16px;padding:6px 0}
+.person img,.person .noimg{width:56px;height:56px;border-radius:50%;object-fit:cover;flex:none;background:var(--raise)}
+.person .t{min-width:0}
+.person small{color:var(--muted)}
+.ep .code{width:auto;display:inline}
+.ep .t div{font-size:15px}
+.ep .t small{font-size:13px}
+.eye{width:44px;height:44px;flex:none;border:0;background:none;color:var(--line);display:grid;place-items:center;cursor:pointer;border-radius:50%;-webkit-touch-callout:none;user-select:none}
+.eye svg{width:26px;height:26px;pointer-events:none}
+.eye[aria-pressed=true]{color:var(--accent)}
+.eye:disabled{opacity:.4;cursor:default}
+.eye:active{background:var(--raise)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion:no-preference){.card .poster{transition:transform .15s}.card:active .poster{transform:scale(.97)}}
 @media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
@@ -184,7 +228,12 @@ const ICON={
   plus:svg('<path d="M12 5v14M5 12h14"/>'),
   back:svg('<path d="M15 5l-7 7 7 7"/>'),
   more:svg('<circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/>'),
-  refresh:svg('<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>')
+  refresh:svg('<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>'),
+  eye:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5C6.5 5 2.7 9.2 1.5 12c1.2 2.8 5 7 10.5 7s9.3-4.2 10.5-7C21.3 9.2 17.5 5 12 5zm0 11.2a4.2 4.2 0 1 1 0-8.4 4.2 4.2 0 0 1 0 8.4zm0-6.6a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8z"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M11 10.5h2V17h-2zM11 7h2v2h-2z" fill="var(--bg)"/></svg>',
+  tag:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6a2 2 0 0 1 2-2h9.2a2 2 0 0 1 1.5.7l5 6a2 2 0 0 1 0 2.6l-5 6a2 2 0 0 1-1.5.7H5a2 2 0 0 1-2-2z"/></svg>',
+  tv:svg('<rect x="3" y="5" width="18" height="12" rx="1.5"/><path d="M8 20h8"/>'),
+  stats:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M7.5 11h2v6h-2zM11 7h2v10h-2zM14.5 13h2v4h-2z" fill="var(--bg)"/></svg>'
 };
 $('#refreshBtn').innerHTML=ICON.refresh;
 document.querySelector('[data-act=menu]').innerHTML=ICON.more;
@@ -229,15 +278,26 @@ function fromApi(j,prev){
     .filter(e=>e.season!=null&&e.number!=null)
     .map(e=>({id:e.id,s:e.season,e:e.number,n:e.name||'TBA',a:e.airstamp||(e.airdate?e.airdate+'T12:00:00Z':''),r:e.runtime||0}))
     .sort((x,y)=>x.s-y.s||x.e-y.e);
+  const cast=((j._embedded&&j._embedded.cast)||[]).slice(0,12).map(c=>({p:c.person&&c.person.name||'',c:c.character&&c.character.name||'',img:(c.character&&c.character.image&&c.character.image.medium)||(c.person&&c.person.image&&c.person.image.medium)||''}));
   return {
     id:j.id,name:j.name,image:j.image?(j.image.medium||j.image.original):'',
     status:j.status||'',network:(j.network&&j.network.name)||(j.webChannel&&j.webChannel.name)||'',
     premiered:j.premiered||'',genres:j.genres||[],summary:strip(j.summary),url:j.url||'',
+    runtime:j.runtime||j.averageRuntime||0,rating:(j.rating&&j.rating.average)||0,
+    cast:cast.length?cast:(prev&&prev.cast)||[],bg:prev?prev.bg||'':'',bgTried:prev?!!prev.bgTried:false,
     episodes:eps,watched:prev?prev.watched:[],added:prev?prev.added:Date.now(),
     lastWatched:prev?prev.lastWatched||0:0,updated:Date.now()
   };
 }
-async function fetchShow(id){return getJSON(`${API}/shows/${id}?embed=episodes`)}
+async function fetchShow(id){return getJSON(`${API}/shows/${id}?embed[]=episodes&embed[]=cast`)}
+async function fetchBanner(sh){
+  if(sh.bgTried||!navigator.onLine)return;
+  try{const imgs=await getJSON(`${API}/shows/${sh.id}/images`)||[];
+    const bg=imgs.find(x=>x.type==='background'&&x.main)||imgs.find(x=>x.type==='background')||imgs.find(x=>x.type==='banner');
+    sh.bg=bg?((bg.resolutions.medium&&bg.resolutions.medium.url)||bg.resolutions.original.url):'';sh.bgTried=true;save();
+    if(V.page&&V.page.type==='show'&&V.page.id===sh.id)renderPage();
+  }catch(e){}
+}
 
 /* ---------- show logic ---------- */
 const aired=e=>!!e.a&&Date.parse(e.a)<=Date.now();
@@ -350,39 +410,54 @@ function renderPage(){
   else if(p.type==='bulk')el.innerHTML=bulkPage();
   else if(p.type==='about')el.innerHTML=aboutPage();
 }
+const fmtAir=t=>new Date(t).toLocaleString('en-AU',{day:'numeric',month:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'}).replace(',','');
+function fmtLeft(min){const hr=Math.floor(min/60),m=min%60;return [hr?hr+(hr===1?' hour':' hours'):'',m?m+(m===1?' minute':' minutes'):''].filter(Boolean).join(', ')||'0 minutes'}
+function stars(r){if(!r)return '';const n=Math.round(r/2*2)/2;let s='';for(let k=1;k<=5;k++)s+=`<span class="${n>=k?'on':n>=k-.5?'half':''}">★</span>`;return `<div class="stars" aria-label="Rated ${r} out of 10">${s}<small>${r.toFixed(1)}/10</small></div>`}
 function showPage(sh){
   if(!sh)return bar('Removed')+'<p class="pad note">This show has been removed.</p>';
-  const i=info(sh),w=new Set(sh.watched);
-  if(!V.page.open){V.page.open=new Set();const t=i.next||i.upcoming||sh.episodes[sh.episodes.length-1];if(t)V.page.open.add(t.s)}
+  const p=V.page,i=info(sh),w=new Set(sh.watched);
+  if(!p.ptab)p.ptab='overview';
+  if(!p.open){p.open=new Set();const t=i.next||i.upcoming||sh.episodes[sh.episodes.length-1];if(t)p.open.add(t.s)}
+  const left=sh.episodes.filter(e=>aired(e)&&!w.has(e.id)).reduce((n,e)=>n+(e.r||sh.runtime||0),0);
+  const pct=i.aired?Math.round(i.seen/i.aired*100):0;
+  const year=sh.premiered?sh.premiered.slice(0,4):'';
+  const banner=`<div class="banner">${sh.bg||sh.image?`<img src="${esc(sh.bg||sh.image)}" alt="" class="${sh.bg?'':'blur'}">`:''}<div class="shade"></div>
+    <button class="iconbtn bback" data-act="back" aria-label="Back">${ICON.back}</button>
+    <h1 class="pad">${esc(sh.name)}${year?` <span>(${year})</span>`:''}</h1></div>
+    <div class="ptabs"><button data-act="ptab" data-t="overview" aria-selected="${p.ptab==='overview'}">Overview</button><button data-act="ptab" data-t="episodes" aria-selected="${p.ptab==='episodes'}">Episodes${i.unseen?` <small>${i.unseen}</small>`:''}</button></div>`;
+  if(p.ptab==='overview'){
+    const up=i.next?`<div class="nextup"><div class="t"><span class="lbl">Up next</span><div><b>${code(i.next)}</b> ${esc(i.next.n)}</div><small>Aired ${fmtAir(i.next.a)}</small></div><button class="btn pri small" data-act="mark-next">${ICON.eye} Watched</button></div>`
+      :i.upcoming?`<div class="nextup"><div class="t"><span class="lbl">All caught up</span><div><b>${code(i.upcoming)}</b> ${esc(i.upcoming.n)}</div><small>Airs ${fmtAir(i.upcoming.a)}</small></div></div>`
+      :`<div class="nextup"><div class="t"><span class="lbl">${i.state==='finished'?'Finished':'All caught up'}</span><div>No episodes left to watch</div></div></div>`;
+    return banner+`<div class="pad ov">
+      ${up}
+      <div class="orow"><span class="oi">${ICON.info}</span><div>${stars(sh.rating)}${sh.summary?`<p class="sum${p.more?' open':''}" data-act="more">${esc(sh.summary)}</p>`:'<p class="note">No description available.</p>'}</div></div>
+      ${sh.genres.length?`<div class="orow"><span class="oi">${ICON.tag}</span><div>${esc(sh.genres.join(', '))}</div></div>`:''}
+      <div class="orow"><span class="oi">${ICON.tv}</span><div>${[sh.runtime?sh.runtime+' minutes':'',esc(sh.status==='Running'?'Still running':sh.status),esc(sh.network)].filter(Boolean).join('<br>')}</div></div>
+      <div class="orow"><span class="oi">${ICON.stats}</span><div style="flex:1;min-width:0"><div class="pbar"><div class="track"><span style="width:${pct}%"></span></div><b>${i.seen}/${i.aired}</b></div>
+        <small class="note">${left?fmtLeft(left)+' left to watch':'Nothing left to watch'}</small></div></div>
+      <div class="row" style="margin-block:6px 4px">
+        <a class="btn small" href="https://www.justwatch.com/au/search?q=${encodeURIComponent(sh.name)}" target="_blank" rel="noopener">Where to watch</a>
+        <button class="btn small" data-act="refresh-one">Refresh</button>
+        <button class="btn small warn" data-act="remove-show">Remove show</button></div>
+      ${sh.cast.length?`<h3 class="section-h">Cast</h3><div class="cast">${sh.cast.map(c=>`<div class="person">${c.img?`<img src="${esc(c.img)}" alt="" loading="lazy">`:'<div class="noimg"></div>'}<div class="t"><div>${esc(c.p)}</div><small>${c.c?'as '+esc(c.c):''}</small></div></div>`).join('')}</div>`:''}
+      <p class="note" style="margin-top:18px">Last updated ${fmtDate(sh.updated)}. Data from <a href="${esc(sh.url||'https://www.tvmaze.com')}" target="_blank" rel="noopener" style="color:inherit">TVmaze</a>.</p></div>`;
+  }
   const seasons={};sh.episodes.forEach(e=>(seasons[e.s]=seasons[e.s]||[]).push(e));
   let lastSeen=null;sh.episodes.forEach(e=>{if(w.has(e.id))lastSeen=e});
   const opts=['<option value="NONE">Haven\'t started</option>'].concat(sh.episodes.filter(aired).map(e=>`<option value="${code(e)}"${lastSeen&&lastSeen.id===e.id?' selected':''}>${code(e)} · ${esc(e.n)}</option>`)).join('');
-  const status=sh.status==='Running'?'<span class="pill live">Still running</span>':sh.status?`<span class="pill">${esc(sh.status)}</span>`:'';
-  const nextLine=i.next?`Up next: <b style="color:var(--accent);font-family:var(--display);font-size:16px">${code(i.next)}</b> ${esc(i.next.n)}`
-    :i.upcoming?`Caught up. ${code(i.upcoming)} airs ${fmtDay(i.upcoming.a)}`:'All caught up';
-  return bar(sh.name)+`<div class="pad">
-    <div class="hero"><div class="poster">${posterImg(sh.image,sh.name)}</div>
-      <div class="meta"><h1>${esc(sh.name)}</h1>
-        <div class="sub">${esc([sh.premiered?sh.premiered.slice(0,4):'',sh.network,sh.genres.slice(0,2).join(', ')].filter(Boolean).join(' · '))}</div>
-        ${status}<div class="sub">${i.seen} of ${i.aired} aired episodes watched</div></div></div>
-    <p class="summary">${nextLine}</p>
-    ${sh.summary?`<p class="summary">${esc(sh.summary)}</p>`:''}
-    <div class="panel"><label for="progSel">Set my progress: watched up to</label>
-      <div class="prog"><select id="progSel">${opts}</select><button class="btn pri small" data-act="set-progress">Apply</button></div>
-      <p class="note">Ticks every episode up to the one you pick, and clears the ticks after it.</p></div>
-    ${Object.keys(seasons).sort((a,b)=>a-b).map(s=>{
-      const eps=seasons[s],seenN=eps.filter(e=>w.has(e.id)).length,airedN=eps.filter(aired).length,full=airedN&&seenN>=airedN;
-      return `<details class="season" data-s="${s}"${V.page.open.has(+s)?' open':''}><summary><span class="sn">${+s===0?'Specials':'Season '+s}</span><span class="sc${full?' full':''}">${seenN}/${eps.length}</span>
-        <button class="mini" data-act="season" data-s="${s}" data-on="${full?0:1}">${full?'Untick all':'Tick all'}</button></summary>
-        ${eps.map(e=>{const a=aired(e),on=w.has(e.id);return `<div class="ep${a?'':' future'}${on?' seen':''}"><span class="code">${code(e)}</span>
-          <div class="t"><div>${esc(e.n)}</div><small>${e.a?(a?fmtDate(e.a):'Airs '+fmtDay(e.a)):'Date to be announced'}${e.r?' · '+e.r+' min':''}</small></div>
-          <button class="chk" data-act="ep" data-ep="${e.id}" aria-pressed="${on}" aria-label="Watched ${code(e)}"${a||on?'':' disabled'}>${ICON.check}</button></div>`}).join('')}
+  return banner+`<div class="pad">
+    <p class="note" style="margin-top:14px">Tap the eye to mark an episode watched. Press and hold it to mark everything up to that episode.</p>
+    ${Object.keys(seasons).sort((a,b)=>b-a).map(s=>{
+      const eps=seasons[s].slice().reverse(),seenN=eps.filter(e=>w.has(e.id)).length,airedN=eps.filter(aired).length,full=airedN&&seenN>=airedN;
+      return `<details class="season" data-s="${s}"${p.open.has(+s)?' open':''}><summary><span class="sn">${+s===0?'Specials':'Season '+s}</span><span class="sc${full?' full':''}">${seenN}/${eps.length}</span>
+        <button class="mini" data-act="season" data-s="${s}" data-on="${full?0:1}">${full?'Unwatch all':'Watch all'}</button></summary>
+        ${eps.map(e=>{const a=aired(e),on=w.has(e.id);return `<div class="ep${a?'':' future'}${on?' seen':''}">
+          <div class="t"><div><span class="code">${code(e)}</span> ${esc(e.n)}</div><small>${e.a?(a?'Aired ':'Airs ')+fmtAir(e.a):'Date to be announced'}</small></div>
+          <button class="eye" data-act="ep" data-ep="${e.id}" aria-pressed="${on}" aria-label="Watched ${code(e)}"${a||on?'':' disabled'}>${ICON.eye}</button></div>`}).join('')}
       </details>`}).join('')}
-    <div class="row" style="margin-top:22px">
-      <a class="btn" href="https://www.justwatch.com/au/search?q=${encodeURIComponent(sh.name)}" target="_blank" rel="noopener">Where to watch</a>
-      <button class="btn" data-act="refresh-one">Refresh episodes</button>
-      <button class="btn warn" data-act="remove-show">Remove show</button></div>
-    <p class="note" style="margin-top:14px">Last updated ${fmtDate(sh.updated)}. Episode data from <a href="${esc(sh.url||'https://www.tvmaze.com')}" target="_blank" rel="noopener" style="color:inherit">TVmaze</a>.</p></div>`;
+    <div class="panel"><label for="progSel">Set my progress: watched up to</label>
+      <div class="prog"><select id="progSel">${opts}</select><button class="btn pri small" data-act="set-progress">Apply</button></div></div></div>`;
 }
 function moviePage(m){
   if(!m)return bar('Removed')+'<p class="pad note">This movie has been removed.</p>';
@@ -446,13 +521,28 @@ FUBAR | S01
 Godfather of Harlem | none
 The Inbetweeners (2008) | S01E03
 Special Ops: Lioness | all
-Manifest | S04E13`;
+Manifest | S04E13
+Mother and Son (2023) | all
+Murderbot | all
+The Night Agent | S02E01
+The Orville | all
+Rake (2010) | S01E01
+Reacher | all
+The Rookie | all
+S.W.A.T. (2017) | S08E08
+Silo | S03E04
+Star Trek: Lower Decks | S02E04
+Star Trek: Prodigy | S01E02
+Star Trek: Starfleet Academy | all
+Star Trek: Strange New Worlds | all
+Tacoma FD | S01E02
+Tulsa King | S03`;
 function bulkPage(){
   return bar('Add several shows')+`<div class="pad">
     <p class="summary">One show per line. After the <code>|</code>, say how far you're up to:</p>
     <p class="note"><code>all</code> = caught up · <code>S02E08</code> = watched up to that episode · <code>S01</code> = finished season 1 · <code>none</code> = not started. Add the year in brackets if there's more than one show with that name, like <code>(2008)</code>.</p>
     <div style="margin-top:14px"><textarea id="bulkText" spellcheck="false">${esc(V.page.text??TWEE)}</textarea></div>
-    <p class="note" style="margin-top:8px">Filled in from your Twee screenshots. Add the rest of your shows from further down your Twee list before you tap Add.</p>
+    <p class="note" style="margin-top:8px">Filled in from your Twee screenshots (24 shows). Add any others that weren't in the screenshots before you tap Add. It takes about a minute.</p>
     <div class="row" style="margin-top:14px"><button class="btn pri" data-act="bulk-go" id="bulkGo">Add these shows</button></div>
     <div class="log" id="bulkLog" style="margin-top:16px"></div></div>`;
 }
@@ -562,7 +652,7 @@ document.addEventListener('click',e=>{
     case 'add':openPage({type:'add',kind:V.tab==='movies'?'movie':'tv'});break;
     case 'add-movie':openPage({type:'add',kind:'movie'});break;
     case 'back':closePage();break;
-    case 'open-show':openPage({type:'show',id:+el.dataset.id});break;
+    case 'open-show':{const sh=S.shows[+el.dataset.id];openPage({type:'show',id:+el.dataset.id,ptab:V.ptab||'overview'});if(sh)fetchBanner(sh);break}
     case 'open-movie':openPage({type:'movie',id:el.dataset.id});break;
     case 'quick':{e.stopPropagation();const sh=S.shows[el.dataset.id],n=info(sh).next;if(!n)break;
       sh.watched.push(n.id);sh.lastWatched=Date.now();save();render();
@@ -590,8 +680,22 @@ document.addEventListener('click',e=>{
       toast(m.watched?'Moved to Watched':'Back on your watchlist');break}
     case 'remove-movie':armRemove(el,()=>{S.movies=S.movies.filter(x=>x.id!==p.id);save();closePage()});break;
     case 'bulk-go':bulkAdd();break;
+    case 'ptab':p.ptab=V.ptab=el.dataset.t;renderPage();break;
+    case 'more':p.more=!p.more;el.classList.toggle('open',p.more);break;
+    case 'mark-next':{const sh=S.shows[p.id],n=info(sh).next;if(!n)break;sh.watched.push(n.id);sh.lastWatched=Date.now();save();renderPage();
+      toast(`${code(n)} watched`,()=>{sh.watched=sh.watched.filter(x=>x!==n.id);save();renderPage()});break}
   }
 });
+let lpT=null,lpFired=false;
+document.addEventListener('pointerdown',e=>{
+  const b=e.target.closest('.eye');if(!b||b.disabled)return;lpFired=false;
+  lpT=setTimeout(()=>{lpFired=true;const sh=S.shows[V.page.id],ep=sh.episodes.find(x=>x.id===+b.dataset.ep);if(!ep)return;
+    const before=sh.watched.slice();setProgress(sh,code(ep));save();renderPage();if(navigator.vibrate)navigator.vibrate(30);
+    toast(`Watched everything up to ${code(ep)}`,()=>{sh.watched=before;save();renderPage()})},550);
+});
+['pointerup','pointercancel','pointerleave'].forEach(t=>document.addEventListener(t,()=>clearTimeout(lpT)));
+document.addEventListener('click',e=>{if(lpFired&&e.target.closest('.eye')){e.stopImmediatePropagation();e.preventDefault();lpFired=false}},true);
+document.addEventListener('contextmenu',e=>{if(e.target.closest('.eye'))e.preventDefault()});
 document.addEventListener('toggle',e=>{
   if(e.target.matches&&e.target.matches('details.season')&&V.page&&V.page.open){
     const s=+e.target.dataset.s;e.target.open?V.page.open.add(s):V.page.open.delete(s);}
