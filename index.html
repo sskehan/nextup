@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Next Up</title>
+<meta name="theme-color" content="#16131a">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: a video-store poster wall; condensed episode codes (S02E09) are the app's voice */
+:root{
+  --bg:#16131a;--surface:#211d26;--raise:#2c2732;--fg:#f3eee8;--muted:#a99f98;--line:#3a3440;
+  --accent:#ff8a1f;--accent-ink:#1d0e00;--good:#5cc98e;--bad:#e8665a;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root{--bg:#f5f1ec;--surface:#ffffff;--raise:#ece5dc;--fg:#1e1a20;--muted:#6e655f;--line:#ddd4ca;
+  --accent:#d96400;--accent-ink:#ffffff;--good:#1f8a52;--bad:#c23b2e;color-scheme:light}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font:15px/1.4 var(--body);-webkit-tap-highlight-color:transparent;min-height:100vh}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:4px;padding-block:10px 2px}
+.brand{font:700 27px/1 var(--display);letter-spacing:.01em;flex:1;display:flex;align-items:center;gap:9px;margin:0}
+.brand i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.iconbtn{width:42px;height:42px;border:0;background:transparent;color:var(--fg);border-radius:50%;display:grid;place-items:center;cursor:pointer;flex:none}
+.iconbtn:active{background:var(--raise)}
+.iconbtn svg{width:22px;height:22px}
+.spin svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tabs{display:flex}
+.tab{flex:1;border:0;background:none;color:var(--muted);font:600 14px/1 var(--body);letter-spacing:.07em;text-transform:uppercase;padding:13px 0 11px;border-bottom:3px solid transparent;cursor:pointer}
+.tab[aria-selected=true]{color:var(--fg);border-color:var(--accent)}
+.tab small{color:var(--accent);margin-left:5px;letter-spacing:0;font-size:13px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-block:14px 4px;scrollbar-width:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:8px 14px;font:500 13px/1 var(--body);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+main{padding-block:8px 120px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:16px 10px;margin-top:10px}
+.card{display:flex;flex-direction:column;gap:6px;cursor:pointer;min-width:0}
+.poster{position:relative;aspect-ratio:2/3;max-width:100%;border-radius:6px;overflow:hidden;background:var(--raise)}
+.poster img{width:100%;height:100%;object-fit:cover;display:block}
+.poster .ph{position:absolute;inset:0;display:grid;place-items:center;padding:8px;text-align:center;font:700 18px/1.05 var(--display);color:var(--muted)}
+.bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(0,0,0,.5)}
+.bar span{display:block;height:100%;background:var(--accent)}
+.badge{position:absolute;top:6px;left:6px;background:var(--accent);color:var(--accent-ink);font:700 13px/1 var(--display);padding:4px 6px;border-radius:4px;letter-spacing:.03em}
+.badge.seen{background:var(--good);color:#06180d}
+.quick{position:absolute;right:6px;bottom:10px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(15,12,18,.8);color:#fff;display:grid;place-items:center;cursor:pointer}
+.quick svg{width:18px;height:18px}
+.cap{font-size:13px;line-height:1.25;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.5em}
+.cap b{font:700 15px/1 var(--display);color:var(--accent);letter-spacing:.03em;margin-right:3px}
+.cap strong{color:var(--fg);font-weight:600}
+.section-h{font:600 12px/1 var(--body);text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:26px 0 4px}
+.fab{position:fixed;right:max(18px,calc(env(safe-area-inset-right,0px) + 18px));bottom:calc(env(safe-area-inset-bottom,0px) + 22px);width:60px;height:60px;border-radius:18px;border:0;background:var(--accent);color:var(--accent-ink);box-shadow:0 8px 24px rgba(0,0,0,.35);display:grid;place-items:center;cursor:pointer;z-index:25}
+.fab svg{width:28px;height:28px}
+.empty{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 18px;margin-top:18px;display:grid;gap:12px}
+.empty h2{font:700 25px/1.1 var(--display);margin:0;text-wrap:balance}
+.empty p{margin:0;color:var(--muted);max-width:60ch}
+.btn{border:0;border-radius:10px;padding:12px 16px;font:600 15px/1 var(--body);cursor:pointer;background:var(--raise);color:var(--fg);display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn.pri{background:var(--accent);color:var(--accent-ink)}
+.btn.warn{color:var(--bad)}
+.btn.small{padding:9px 12px;font-size:14px}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.page{position:fixed;inset:0;z-index:40;background:var(--bg);overflow-y:auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 40px)}
+.pagebar{position:sticky;top:0;z-index:2;background:var(--bg);display:flex;align-items:center;gap:6px;padding-block:8px;border-bottom:1px solid var(--line)}
+.pagebar h2{font:700 22px/1.1 var(--display);margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero{display:flex;gap:16px;padding-block:18px 6px}
+.hero .poster{width:118px;flex:none}
+.hero .meta{min-width:0;display:grid;gap:7px;align-content:start}
+.hero h1{font:700 30px/1 var(--display);margin:0;text-wrap:balance}
+.hero .sub{color:var(--muted);font-size:14px}
+.pill{display:inline-block;font:600 11px/1 var(--body);text-transform:uppercase;letter-spacing:.08em;padding:5px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);width:max-content}
+.pill.live{border-color:var(--good);color:var(--good)}
+.summary{color:var(--muted);margin:10px 0 4px;max-width:65ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;margin-block:16px}
+.panel>label,.lbl{font:600 12px/1 var(--body);text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.prog{display:flex;gap:8px}
+.prog select{flex:1;min-width:0}
+select,input[type=search],input[type=text],textarea{width:100%;font:16px/1.3 var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px}
+textarea{min-height:230px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;line-height:1.5}
+details.season{border-top:1px solid var(--line)}
+details.season summary{list-style:none;display:flex;align-items:center;gap:10px;padding:15px 0;cursor:pointer}
+details.season summary::-webkit-details-marker{display:none}
+.season .sn{font:700 21px/1 var(--display);flex:1}
+.season .sc{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}
+.season .sc.full{color:var(--good)}
+.mini{border:1px solid var(--line);background:none;color:var(--fg);border-radius:8px;padding:7px 10px;font:500 12px/1 var(--body);cursor:pointer}
+.ep{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px dashed var(--line)}
+.ep .code{font:700 15px/1 var(--display);color:var(--accent);width:60px;flex:none;font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.ep .t{flex:1;min-width:0}
+.ep .t div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ep .t small{color:var(--muted);font-size:12px}
+.ep.future{opacity:.55}
+.ep.seen .code{color:var(--muted)}
+.chk{width:36px;height:36px;flex:none;border-radius:50%;border:2px solid var(--line);background:none;color:transparent;display:grid;place-items:center;cursor:pointer}
+.chk svg{width:18px;height:18px}
+.chk[aria-pressed=true]{background:var(--good);border-color:var(--good);color:#06180d}
+.chk:disabled{cursor:default}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px;margin-top:14px}
+.seg button{flex:1;border:0;background:none;color:var(--muted);padding:10px;border-radius:8px;font:600 14px/1 var(--body);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--raise);color:var(--fg)}
+.results{display:grid;margin-top:8px}
+.res{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.res img,.res .noimg{width:48px;height:72px;object-fit:cover;border-radius:4px;background:var(--raise);flex:none}
+.res .t{flex:1;min-width:0}
+.res .t b{display:block;font-weight:600}
+.res .t small{color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.up-day{font:700 19px/1 var(--display);margin:22px 0 6px}
+.up{display:flex;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line);cursor:pointer}
+.up img,.up .noimg{width:40px;height:60px;object-fit:cover;border-radius:4px;flex:none;background:var(--raise)}
+.up .t{min-width:0;flex:1}
+.up .t b{font-weight:600}
+.up .t small{display:block;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.up .code{font:700 15px/1 var(--display);color:var(--accent);letter-spacing:.03em}
+.menu{position:fixed;z-index:50;top:calc(env(safe-area-inset-top,0px) + 54px);right:max(10px,env(safe-area-inset-right,0px));background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.35);padding:6px;min-width:240px}
+.menu button,.menu label{display:block;width:100%;text-align:left;border:0;background:none;color:var(--fg);padding:13px 12px;font:500 15px/1 var(--body);border-radius:8px;cursor:pointer}
+.menu button:active,.menu label:active{background:var(--raise)}
+.scrim{position:fixed;inset:0;z-index:45}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 96px);background:var(--fg);color:var(--bg);padding:10px 12px 10px 16px;border-radius:10px;font-weight:500;z-index:60;max-width:calc(100% - 32px);display:flex;gap:14px;align-items:center}
+.toast button{border:0;background:none;color:var(--accent);font:700 14px/1 var(--body);text-transform:uppercase;letter-spacing:.06em;cursor:pointer;padding:6px}
+.log{font-size:14px;display:grid;gap:5px}
+.log .ok{color:var(--good)} .log .bad{color:var(--bad)}
+.note{color:var(--muted);font-size:13px;margin:0}
+.note code{font-size:12px;background:var(--raise);padding:1px 5px;border-radius:4px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.card .poster{transition:transform .15s}.card:active .poster{transform:scale(.97)}}
+@media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top pad">
+    <h1 class="brand"><i></i>Next Up</h1>
+    <button class="iconbtn" id="refreshBtn" data-act="refresh-all" aria-label="Refresh episode lists"></button>
+    <button class="iconbtn" data-act="menu" aria-label="More options"></button>
+  </div>
+  <nav class="tabs pad" role="tablist">
+    <button class="tab" role="tab" data-act="tab" data-tab="shows">Shows</button>
+    <button class="tab" role="tab" data-act="tab" data-tab="upcoming">Upcoming</button>
+    <button class="tab" role="tab" data-act="tab" data-tab="movies">Movies</button>
+  </nav>
+</header>
+<main id="main" class="pad"></main>
+<button class="fab" data-act="add" aria-label="Add a show or movie"></button>
+<div id="page" class="page" hidden></div>
+<div id="scrim" class="scrim" hidden data-act="close-menu"></div>
+<div id="menu" class="menu" hidden>
+  <button data-act="refresh-all">Refresh all shows</button>
+  <button data-act="bulk">Add several shows at once</button>
+  <button data-act="backup">Back up to file</button>
+  <label for="restoreFile">Restore from backup file</label>
+  <button data-act="about">About &amp; storage</button>
+</div>
+<input type="file" id="restoreFile" accept="application/json,.json" hidden>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+'use strict';
+const KEY='nextup.v1', API='https://api.tvmaze.com', DAY=864e5;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const strip=h=>String(h||'').replace(/<[^>]+>/g,' ').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+const pad=n=>String(n).padStart(2,'0');
+const code=e=>`S${pad(e.s)}E${pad(e.e)}`;
+const fmtDay=t=>new Date(t).toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'});
+const fmtDate=t=>new Date(t).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const svg=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const ICON={
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  plus:svg('<path d="M12 5v14M5 12h14"/>'),
+  back:svg('<path d="M15 5l-7 7 7 7"/>'),
+  more:svg('<circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/>'),
+  refresh:svg('<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>')
+};
+$('#refreshBtn').innerHTML=ICON.refresh;
+document.querySelector('[data-act=menu]').innerHTML=ICON.more;
+document.querySelector('.fab').innerHTML=ICON.plus;
+
+/* ---------- storage ---------- */
+function load(){
+  try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&d.shows&&d.movies)return d}catch(e){}
+  return {shows:{},movies:[],lastRefresh:0};
+}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(S))}
+  catch(e){toast('Could not save. Phone storage may be full.')}
+}
+let S=load();
+const V={tab:'shows',filter:'all',mseg:'list',page:null,refreshing:false};
+try{V.tab=localStorage.getItem('nextup.tab')||'shows'}catch(e){}
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+
+/* ---------- data sources ---------- */
+async function getJSON(url,tries=2){
+  const r=await fetch(url);
+  if(r.status===429&&tries>0){await sleep(2500);return getJSON(url,tries-1)}
+  if(r.status===404)return null;
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+}
+function jsonp(url){
+  return new Promise((res,rej)=>{
+    const cb='np'+Date.now()+Math.floor(Math.random()*1e6);
+    const s=document.createElement('script');
+    const done=()=>{delete window[cb];s.remove();clearTimeout(t)};
+    const t=setTimeout(()=>{done();rej(new Error('timeout'))},12000);
+    window[cb]=d=>{done();res(d)};
+    s.onerror=()=>{done();rej(new Error('failed'))};
+    s.src=url+'&callback='+cb;
+    document.head.appendChild(s);
+  });
+}
+function fromApi(j,prev){
+  const eps=((j._embedded&&j._embedded.episodes)||[])
+    .filter(e=>e.season!=null&&e.number!=null)
+    .map(e=>({id:e.id,s:e.season,e:e.number,n:e.name||'TBA',a:e.airstamp||(e.airdate?e.airdate+'T12:00:00Z':''),r:e.runtime||0}))
+    .sort((x,y)=>x.s-y.s||x.e-y.e);
+  return {
+    id:j.id,name:j.name,image:j.image?(j.image.medium||j.image.original):'',
+    status:j.status||'',network:(j.network&&j.network.name)||(j.webChannel&&j.webChannel.name)||'',
+    premiered:j.premiered||'',genres:j.genres||[],summary:strip(j.summary),url:j.url||'',
+    episodes:eps,watched:prev?prev.watched:[],added:prev?prev.added:Date.now(),
+    lastWatched:prev?prev.lastWatched||0:0,updated:Date.now()
+  };
+}
+async function fetchShow(id){return getJSON(`${API}/shows/${id}?embed=episodes`)}
+
+/* ---------- show logic ---------- */
+const aired=e=>!!e.a&&Date.parse(e.a)<=Date.now();
+function info(sh){
+  const w=new Set(sh.watched);let a=0,seen=0,next=null,upcoming=null;
+  for(const e of sh.episodes){
+    if(aired(e)){a++;if(w.has(e.id))seen++;else if(!next)next=e}
+    else if(!upcoming&&e.a)upcoming=e;
+  }
+  const state=next?'towatch':(sh.status==='Ended'&&!upcoming?'finished':'caughtup');
+  return {aired:a,seen,unseen:a-seen,next,upcoming,state};
+}
+function setProgress(sh,spec){
+  spec=String(spec||'').trim().toUpperCase();
+  let m;
+  if(!spec||spec==='NONE'){sh.watched=[];return true}
+  if(spec==='ALL'){sh.watched=sh.episodes.filter(aired).map(e=>e.id)}
+  else if((m=spec.match(/^S(\d+)E(\d+)$/))){const s=+m[1],n=+m[2];sh.watched=sh.episodes.filter(e=>e.s<s||(e.s===s&&e.e<=n)).map(e=>e.id)}
+  else if((m=spec.match(/^S(\d+)$/))){const s=+m[1];sh.watched=sh.episodes.filter(e=>e.s<=s).map(e=>e.id)}
+  else return false;
+  if(sh.watched.length)sh.lastWatched=Date.now();
+  return true;
+}
+
+/* ---------- rendering: main tabs ---------- */
+function posterImg(src,alt){
+  return src?`<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:`<div class="ph">${esc(alt)}</div>`;
+}
+function render(){
+  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.tab===V.tab));
+  const shows=Object.values(S.shows);
+  const toWatch=shows.filter(s=>info(s).next).length;
+  const listN=S.movies.filter(m=>!m.watched).length;
+  document.querySelector('[data-tab=shows]').innerHTML='Shows'+(toWatch?`<small>${toWatch}</small>`:'');
+  document.querySelector('[data-tab=movies]').innerHTML='Movies'+(listN?`<small>${listN}</small>`:'');
+  $('#refreshBtn').classList.toggle('spin',V.refreshing);
+  const main=$('#main');
+  main.innerHTML=V.tab==='shows'?renderShows(shows):V.tab==='movies'?renderMovies():renderUpcoming(shows);
+}
+function renderShows(shows){
+  if(!shows.length)return `<div class="empty"><h2>Bring your shows across from Twee</h2>
+    <p>Paste a list of show names and how far you're up to, and Next Up fetches every season and episode for you. Your shows from Twee are already filled in from your screenshots.</p>
+    <div class="row"><button class="btn pri" data-act="bulk">Import my Twee shows</button><button class="btn" data-act="add">Search for a show</button></div></div>`;
+  const list=shows.map(sh=>({sh,i:info(sh)}));
+  const c={all:list.length,towatch:0,caughtup:0,finished:0};list.forEach(x=>c[x.i.state]++);
+  const rank={towatch:0,caughtup:1,finished:2};
+  const far=Number.MAX_SAFE_INTEGER;
+  list.sort((x,y)=>rank[x.i.state]-rank[y.i.state]
+    ||(x.i.state==='towatch'?(y.sh.lastWatched||y.sh.added)-(x.sh.lastWatched||x.sh.added):0)
+    ||(x.i.state==='caughtup'?(x.i.upcoming?Date.parse(x.i.upcoming.a):far)-(y.i.upcoming?Date.parse(y.i.upcoming.a):far):0)
+    ||x.sh.name.localeCompare(y.sh.name));
+  const shown=V.filter==='all'?list:list.filter(x=>x.i.state===V.filter);
+  const chip=(k,l)=>`<button class="chip" data-act="filter" data-f="${k}" aria-pressed="${V.filter===k}">${l} · ${c[k]}</button>`;
+  return `<div class="chips">${chip('all','All')}${chip('towatch','To watch')}${chip('caughtup','Caught up')}${chip('finished','Finished')}</div>
+    ${shown.length?`<div class="grid">${shown.map(showCard).join('')}</div>`:`<p class="note" style="margin-top:20px">Nothing here yet.</p>`}`;
+}
+function showCard({sh,i}){
+  const pct=i.aired?Math.round(i.seen/i.aired*100):0;
+  let cap;
+  if(i.next)cap=`<b>${code(i.next)}</b>${esc(i.next.n)}`;
+  else if(i.upcoming)cap=`All caught up<br><strong>New ep ${fmtDay(i.upcoming.a)}</strong>`;
+  else cap=i.state==='finished'?'Finished':'All caught up';
+  return `<div class="card" data-act="open-show" data-id="${sh.id}" role="button" tabindex="0" aria-label="${esc(sh.name)}">
+    <div class="poster">${posterImg(sh.image,sh.name)}
+      ${i.unseen>1?`<span class="badge">${i.unseen} to watch</span>`:''}
+      ${i.next?`<button class="quick" data-act="quick" data-id="${sh.id}" aria-label="Mark ${code(i.next)} of ${esc(sh.name)} watched">${ICON.check}</button>`:''}
+      <div class="bar"><span style="width:${pct}%"></span></div></div>
+    <div class="cap">${cap}</div></div>`;
+}
+function renderUpcoming(shows){
+  const now=Date.now();const recent=[],soon=[];
+  for(const sh of shows){const w=new Set(sh.watched);
+    for(const e of sh.episodes){if(!e.a)continue;const t=Date.parse(e.a);
+      if(t<=now&&t>now-7*DAY&&!w.has(e.id))recent.push({sh,e,t});
+      else if(t>now&&t<now+60*DAY)soon.push({sh,e,t});}}
+  recent.sort((a,b)=>b.t-a.t);soon.sort((a,b)=>a.t-b.t);
+  const item=({sh,e,t})=>`<div class="up" data-act="open-show" data-id="${sh.id}" role="button" tabindex="0">
+    ${sh.image?`<img src="${esc(sh.image)}" alt="" loading="lazy">`:'<div class="noimg"></div>'}
+    <div class="t"><b>${esc(sh.name)}</b><small><span class="code">${code(e)}</span> ${esc(e.n)}</small></div>
+    <small class="note">${new Date(t).toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'})}</small></div>`;
+  let h='';
+  if(recent.length)h+=`<h3 class="section-h">Aired this week, not watched</h3>${recent.map(item).join('')}`;
+  if(soon.length){h+=`<h3 class="section-h">Coming up</h3>`;let last='';
+    for(const x of soon){const d=fmtDay(x.t);if(d!==last){h+=`<div class="up-day">${d}</div>`;last=d}h+=item(x)}}
+  if(!h)h=`<div class="empty"><h2>Nothing scheduled in the next two months</h2><p>New episodes for your shows appear here once the networks announce air dates. Times are shown in your phone's time zone (US air time for US shows).</p></div>`;
+  return h;
+}
+function renderMovies(){
+  const list=S.movies.filter(m=>V.mseg==='seen'?m.watched:!m.watched)
+    .sort((a,b)=>V.mseg==='seen'?(b.watchedAt||0)-(a.watchedAt||0):b.added-a.added);
+  const nList=S.movies.filter(m=>!m.watched).length,nSeen=S.movies.length-nList;
+  let h=`<div class="seg"><button data-act="mseg" data-s="list" aria-pressed="${V.mseg==='list'}">To watch · ${nList}</button><button data-act="mseg" data-s="seen" aria-pressed="${V.mseg==='seen'}">Watched · ${nSeen}</button></div>`;
+  if(!list.length)return h+`<div class="empty"><h2>${V.mseg==='seen'?'No watched movies yet':'Your movie watchlist is empty'}</h2><p>${V.mseg==='seen'?'Movies you mark as watched move here, with the date you saw them.':'Tap + and switch to Movies to search for something you want to see.'}</p>${V.mseg==='list'?'<div class="row"><button class="btn pri" data-act="add-movie">Find a movie</button></div>':''}</div>`;
+  return h+`<div class="grid">${list.map(m=>`<div class="card" data-act="open-movie" data-id="${esc(m.id)}" role="button" tabindex="0" aria-label="${esc(m.title)}">
+    <div class="poster">${posterImg(m.image,m.title)}${m.watched?`<span class="badge seen">Seen</span>`:''}</div>
+    <div class="cap"><strong>${esc(m.title)}</strong><br>${m.watched&&m.watchedAt?'Watched '+fmtDate(m.watchedAt):[m.year,m.genre].filter(Boolean).join(' · ')}</div></div>`).join('')}</div>`;
+}
+
+/* ---------- pages (show, movie, add, bulk, about) ---------- */
+function openPage(p){V.page=p;history.pushState({np:1},'');renderPage();$('#page').scrollTop=0}
+function closePage(){if(V.page)history.back()}
+window.addEventListener('popstate',()=>{if(V.page){V.page=null;$('#page').hidden=true;$('#page').innerHTML='';render()}});
+function bar(title,extra=''){return `<div class="pagebar pad"><button class="iconbtn" data-act="back" aria-label="Back">${ICON.back}</button><h2>${esc(title)}</h2>${extra}</div>`}
+function renderPage(){
+  const p=V.page,el=$('#page');if(!p){el.hidden=true;return}
+  el.hidden=false;
+  if(p.type==='show')el.innerHTML=showPage(S.shows[p.id]);
+  else if(p.type==='movie')el.innerHTML=moviePage(S.movies.find(m=>m.id===p.id));
+  else if(p.type==='add')renderAdd();
+  else if(p.type==='bulk')el.innerHTML=bulkPage();
+  else if(p.type==='about')el.innerHTML=aboutPage();
+}
+function showPage(sh){
+  if(!sh)return bar('Removed')+'<p class="pad note">This show has been removed.</p>';
+  const i=info(sh),w=new Set(sh.watched);
+  if(!V.page.open){V.page.open=new Set();const t=i.next||i.upcoming||sh.episodes[sh.episodes.length-1];if(t)V.page.open.add(t.s)}
+  const seasons={};sh.episodes.forEach(e=>(seasons[e.s]=seasons[e.s]||[]).push(e));
+  let lastSeen=null;sh.episodes.forEach(e=>{if(w.has(e.id))lastSeen=e});
+  const opts=['<option value="NONE">Haven\'t started</option>'].concat(sh.episodes.filter(aired).map(e=>`<option value="${code(e)}"${lastSeen&&lastSeen.id===e.id?' selected':''}>${code(e)} · ${esc(e.n)}</option>`)).join('');
+  const status=sh.status==='Running'?'<span class="pill live">Still running</span>':sh.status?`<span class="pill">${esc(sh.status)}</span>`:'';
+  const nextLine=i.next?`Up next: <b style="color:var(--accent);font-family:var(--display);font-size:16px">${code(i.next)}</b> ${esc(i.next.n)}`
+    :i.upcoming?`Caught up. ${code(i.upcoming)} airs ${fmtDay(i.upcoming.a)}`:'All caught up';
+  return bar(sh.name)+`<div class="pad">
+    <div class="hero"><div class="poster">${posterImg(sh.image,sh.name)}</div>
+      <div class="meta"><h1>${esc(sh.name)}</h1>
+        <div class="sub">${esc([sh.premiered?sh.premiered.slice(0,4):'',sh.network,sh.genres.slice(0,2).join(', ')].filter(Boolean).join(' · '))}</div>
+        ${status}<div class="sub">${i.seen} of ${i.aired} aired episodes watched</div></div></div>
+    <p class="summary">${nextLine}</p>
+    ${sh.summary?`<p class="summary">${esc(sh.summary)}</p>`:''}
+    <div class="panel"><label for="progSel">Set my progress: watched up to</label>
+      <div class="prog"><select id="progSel">${opts}</select><button class="btn pri small" data-act="set-progress">Apply</button></div>
+      <p class="note">Ticks every episode up to the one you pick, and clears the ticks after it.</p></div>
+    ${Object.keys(seasons).sort((a,b)=>a-b).map(s=>{
+      const eps=seasons[s],seenN=eps.filter(e=>w.has(e.id)).length,airedN=eps.filter(aired).length,full=airedN&&seenN>=airedN;
+      return `<details class="season" data-s="${s}"${V.page.open.has(+s)?' open':''}><summary><span class="sn">${+s===0?'Specials':'Season '+s}</span><span class="sc${full?' full':''}">${seenN}/${eps.length}</span>
+        <button class="mini" data-act="season" data-s="${s}" data-on="${full?0:1}">${full?'Untick all':'Tick all'}</button></summary>
+        ${eps.map(e=>{const a=aired(e),on=w.has(e.id);return `<div class="ep${a?'':' future'}${on?' seen':''}"><span class="code">${code(e)}</span>
+          <div class="t"><div>${esc(e.n)}</div><small>${e.a?(a?fmtDate(e.a):'Airs '+fmtDay(e.a)):'Date to be announced'}${e.r?' · '+e.r+' min':''}</small></div>
+          <button class="chk" data-act="ep" data-ep="${e.id}" aria-pressed="${on}" aria-label="Watched ${code(e)}"${a||on?'':' disabled'}>${ICON.check}</button></div>`}).join('')}
+      </details>`}).join('')}
+    <div class="row" style="margin-top:22px">
+      <a class="btn" href="https://www.justwatch.com/au/search?q=${encodeURIComponent(sh.name)}" target="_blank" rel="noopener">Where to watch</a>
+      <button class="btn" data-act="refresh-one">Refresh episodes</button>
+      <button class="btn warn" data-act="remove-show">Remove show</button></div>
+    <p class="note" style="margin-top:14px">Last updated ${fmtDate(sh.updated)}. Episode data from <a href="${esc(sh.url||'https://www.tvmaze.com')}" target="_blank" rel="noopener" style="color:inherit">TVmaze</a>.</p></div>`;
+}
+function moviePage(m){
+  if(!m)return bar('Removed')+'<p class="pad note">This movie has been removed.</p>';
+  return bar(m.title)+`<div class="pad">
+    <div class="hero"><div class="poster">${posterImg(m.image,m.title)}</div>
+      <div class="meta"><h1>${esc(m.title)}</h1>
+        <div class="sub">${esc([m.year,m.genre,m.runtime?m.runtime+' min':'',m.rating].filter(Boolean).join(' · '))}</div>
+        ${m.watched?`<span class="pill live">Watched${m.watchedAt?' '+fmtDate(m.watchedAt):''}</span>`:'<span class="pill">On your watchlist</span>'}</div></div>
+    ${m.overview?`<p class="summary">${esc(m.overview)}</p>`:''}
+    <div class="row" style="margin-top:20px">
+      <button class="btn pri" data-act="movie-toggle">${m.watched?'Move back to watchlist':'Mark as watched'}</button>
+      <a class="btn" href="https://www.justwatch.com/au/search?q=${encodeURIComponent(m.title)}" target="_blank" rel="noopener">Where to watch</a>
+      <button class="btn warn" data-act="remove-movie">Remove</button></div></div>`;
+}
+function renderAdd(){
+  const p=V.page,el=$('#page');
+  el.innerHTML=bar('Add')+`<div class="pad">
+    <div class="seg"><button data-act="add-kind" data-k="tv" aria-pressed="${p.kind==='tv'}">TV show</button><button data-act="add-kind" data-k="movie" aria-pressed="${p.kind==='movie'}">Movie</button></div>
+    <div style="margin-top:14px"><input type="search" id="q" placeholder="${p.kind==='tv'?'Search TV shows, e.g. Reacher':'Search movies, e.g. Dune'}" autocomplete="off" enterkeyhint="search" value="${esc(p.q||'')}"></div>
+    <div class="results" id="results"></div>
+    ${p.kind==='tv'?'<p class="note" style="margin-top:16px">Moving a lot of shows over? <button class="mini" data-act="bulk">Add several at once</button></p>':''}</div>`;
+  const q=$('#q');q.focus();
+  q.addEventListener('input',()=>{clearTimeout(p.t);p.q=q.value;p.t=setTimeout(doSearch,450)});
+  if(p.q)doSearch();
+}
+async function doSearch(){
+  const p=V.page;if(!p||p.type!=='add')return;
+  const q=(p.q||'').trim(),box=$('#results');if(!box)return;
+  if(q.length<2){box.innerHTML='';return}
+  box.innerHTML='<p class="note" style="padding:12px 0">Searching…</p>';
+  const token=p.token=Math.random();
+  try{
+    if(p.kind==='tv'){
+      const r=await getJSON(`${API}/search/shows?q=${encodeURIComponent(q)}`)||[];
+      if(token!==p.token)return;
+      p.res=r.map(x=>x.show);
+      box.innerHTML=p.res.length?p.res.map(s=>{const have=!!S.shows[s.id];
+        return `<div class="res">${s.image?`<img src="${esc(s.image.medium)}" alt="" loading="lazy">`:'<div class="noimg"></div>'}
+          <div class="t"><b>${esc(s.name)}</b><small>${esc([s.premiered?s.premiered.slice(0,4):'',(s.network&&s.network.name)||(s.webChannel&&s.webChannel.name)||'',s.status].filter(Boolean).join(' · '))}</small></div>
+          <button class="btn small ${have?'':'pri'}" data-act="add-show" data-id="${s.id}"${have?' disabled':''}>${have?'Added':'Add'}</button></div>`}).join('')
+        :'<p class="note" style="padding:12px 0">No shows found. Check the spelling, or try fewer words.</p>';
+    }else{
+      const d=await jsonp(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=movie&entity=movie&country=au&limit=25`);
+      if(token!==p.token)return;
+      p.res=(d.results||[]).map(x=>({id:'it'+x.trackId,title:x.trackName,year:x.releaseDate?x.releaseDate.slice(0,4):'',
+        image:x.artworkUrl100?x.artworkUrl100.replace(/\d+x\d+bb/,'400x600bb'):'',genre:x.primaryGenreName||'',
+        runtime:x.trackTimeMillis?Math.round(x.trackTimeMillis/60000):0,rating:x.contentAdvisoryRating||'',overview:x.longDescription||x.shortDescription||''}));
+      const manual=`<div class="res"><div class="noimg"></div><div class="t"><b>Not listed?</b><small>Add “${esc(q)}” with just the title.</small></div><button class="btn small" data-act="add-movie-manual">Add</button></div>`;
+      box.innerHTML=p.res.map((m,ix)=>{const have=S.movies.some(x=>x.id===m.id);
+        return `<div class="res">${m.image?`<img src="${esc(m.image)}" alt="" loading="lazy">`:'<div class="noimg"></div>'}
+          <div class="t"><b>${esc(m.title)}</b><small>${esc([m.year,m.genre].filter(Boolean).join(' · '))}</small></div>
+          <button class="btn small ${have?'':'pri'}" data-act="add-movie-res" data-ix="${ix}"${have?' disabled':''}>${have?'Added':'Add'}</button></div>`}).join('')+manual;
+    }
+  }catch(e){if(token===p.token)box.innerHTML=`<p class="note" style="padding:12px 0">Search didn't work. Check you're online, then try again.</p>`}
+}
+const TWEE=`Chicago Fire | all
+Chicago P.D. | all
+Dexter: Resurrection | all
+The Family Stallone | S02E08
+FUBAR | S01
+Godfather of Harlem | none
+The Inbetweeners (2008) | S01E03
+Special Ops: Lioness | all
+Manifest | S04E13`;
+function bulkPage(){
+  return bar('Add several shows')+`<div class="pad">
+    <p class="summary">One show per line. After the <code>|</code>, say how far you're up to:</p>
+    <p class="note"><code>all</code> = caught up · <code>S02E08</code> = watched up to that episode · <code>S01</code> = finished season 1 · <code>none</code> = not started. Add the year in brackets if there's more than one show with that name, like <code>(2008)</code>.</p>
+    <div style="margin-top:14px"><textarea id="bulkText" spellcheck="false">${esc(V.page.text??TWEE)}</textarea></div>
+    <p class="note" style="margin-top:8px">Filled in from your Twee screenshots. Add the rest of your shows from further down your Twee list before you tap Add.</p>
+    <div class="row" style="margin-top:14px"><button class="btn pri" data-act="bulk-go" id="bulkGo">Add these shows</button></div>
+    <div class="log" id="bulkLog" style="margin-top:16px"></div></div>`;
+}
+function aboutPage(){
+  let bytes=0;try{bytes=(localStorage.getItem(KEY)||'').length}catch(e){}
+  const shows=Object.values(S.shows),eps=shows.reduce((n,s)=>n+s.watched.length,0);
+  return bar('About & storage')+`<div class="pad">
+    <div class="panel"><dl class="kv">
+      <dt>Shows</dt><dd>${shows.length}</dd><dt>Episodes ticked</dt><dd>${eps}</dd>
+      <dt>Movies</dt><dd>${S.movies.length} (${S.movies.filter(m=>m.watched).length} watched)</dd>
+      <dt>Data size</dt><dd>${(bytes/1024).toFixed(0)} KB on this phone</dd>
+      <dt>Last refresh</dt><dd>${S.lastRefresh?new Date(S.lastRefresh).toLocaleString('en-AU'):'Never'}</dd></dl></div>
+    <p class="summary">Everything is stored on this phone only. Use <b>Back up to file</b> in the menu now and then, and before changing phones or clearing Chrome's data.</p>
+    <p class="summary">TV information comes from <a href="https://www.tvmaze.com" target="_blank" rel="noopener" style="color:var(--accent)">TVmaze</a> (free, no account). Movie search uses Apple's public iTunes catalogue. Episode lists refresh automatically when you open the app, at most every 6 hours.</p></div>`;
+}
+
+/* ---------- actions ---------- */
+async function addShowById(id,btn){
+  if(S.shows[id])return S.shows[id];
+  if(btn){btn.disabled=true;btn.textContent='Adding…'}
+  try{const j=await fetchShow(id);S.shows[id]=fromApi(j);save();
+    if(btn){btn.textContent='Added';btn.classList.remove('pri')}toast(`Added ${j.name}`);return S.shows[id];}
+  catch(e){if(btn){btn.disabled=false;btn.textContent='Add'}toast("Couldn't add that show. Check you're online.");return null}
+}
+async function refreshAll(force){
+  if(V.refreshing)return;const list=Object.values(S.shows);if(!list.length)return;
+  if(!navigator.onLine){if(force)toast("You're offline. Showing saved episode lists.");return}
+  V.refreshing=true;render();let ok=0,fail=0;
+  for(const sh of list){
+    if(!force&&sh.status==='Ended'&&Date.now()-sh.updated<7*DAY)continue;
+    try{const j=await fetchShow(sh.id);if(j){S.shows[sh.id]=fromApi(j,S.shows[sh.id]||sh);ok++}}catch(e){fail++}
+    await sleep(350);
+  }
+  S.lastRefresh=Date.now();save();V.refreshing=false;render();if(V.page&&V.page.type==='show')renderPage();
+  if(force)toast(fail?`Updated ${ok} shows, ${fail} failed`:`Updated ${ok} shows`);
+}
+async function bulkAdd(){
+  const ta=$('#bulkText'),log=$('#bulkLog'),go=$('#bulkGo');V.page.text=ta.value;
+  const lines=ta.value.split('\n').map(l=>l.trim()).filter(Boolean);if(!lines.length)return;
+  go.disabled=true;go.textContent='Adding…';log.innerHTML='';
+  for(const line of lines){
+    let [name,spec]=line.split('|').map(x=>(x||'').trim());let year=null;
+    const ym=name.match(/\((\d{4})\)\s*$/);if(ym){year=ym[1];name=name.replace(ym[0],'').trim()}
+    const row=document.createElement('div');row.textContent='… '+name;log.appendChild(row);
+    try{
+      let found=null;
+      if(year){const r=await getJSON(`${API}/search/shows?q=${encodeURIComponent(name)}`)||[];found=(r.find(x=>(x.show.premiered||'').startsWith(year))||r[0]||{}).show}
+      else found=await getJSON(`${API}/singlesearch/shows?q=${encodeURIComponent(name)}`);
+      if(!found){row.className='bad';row.textContent=`✗ ${name}: not found. Try a different spelling.`;continue}
+      let sh=S.shows[found.id];const existed=!!sh;
+      if(!sh){await sleep(300);sh=fromApi(await fetchShow(found.id));S.shows[sh.id]=sh}
+      const okSpec=spec?setProgress(sh,spec):true;save();
+      const i=info(sh);
+      row.className=okSpec?'ok':'bad';
+      row.textContent=`✓ ${sh.name} (${(sh.premiered||'').slice(0,4)})${existed?' already added':''}: `+(i.next?`next is ${code(i.next)}`:'all caught up')+(okSpec?'':` · couldn't read "${spec}", set progress on the show page`);
+    }catch(e){row.className='bad';row.textContent=`✗ ${name}: couldn't reach TVmaze. Check you're online and tap Add again.`}
+    await sleep(500);
+  }
+  go.disabled=false;go.textContent='Add these shows';render();
+  const done=document.createElement('p');done.className='note';done.style.marginTop='10px';
+  done.innerHTML='Done. If a show matched the wrong series, open it, tap Remove, then add the right one with the year in brackets.';log.appendChild(done);
+}
+function backup(){
+  const blob=new Blob([JSON.stringify({app:'nextup',version:1,exported:new Date().toISOString(),...S},null,1)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`nextup-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);toast('Backup saved to Downloads');
+}
+$('#restoreFile').addEventListener('change',async e=>{
+  const f=e.target.files[0];e.target.value='';closeMenu();if(!f)return;
+  try{const d=JSON.parse(await f.text());if(!d.shows||!Array.isArray(d.movies))throw 0;
+    try{localStorage.setItem('nextup.before-restore',JSON.stringify(S))}catch(x){}
+    S={shows:d.shows,movies:d.movies,lastRefresh:0};save();render();
+    toast(`Restored ${Object.keys(S.shows).length} shows and ${S.movies.length} movies`);refreshAll(false);
+  }catch(x){toast("That file isn't a Next Up backup")}
+});
+
+let toastT;
+function toast(msg,undo){
+  const t=$('#toast');clearTimeout(toastT);
+  t.innerHTML=`<span>${esc(msg)}</span>${undo?'<button id="undoBtn">Undo</button>':''}`;t.hidden=false;
+  if(undo)$('#undoBtn').onclick=()=>{undo();t.hidden=true};
+  toastT=setTimeout(()=>t.hidden=true,undo?5000:2800);
+}
+function openMenu(){$('#menu').hidden=false;$('#scrim').hidden=false}
+function closeMenu(){$('#menu').hidden=true;$('#scrim').hidden=true}
+function armRemove(btn,fn){
+  if(btn.dataset.armed){fn();return}
+  btn.dataset.armed=1;const old=btn.textContent;btn.textContent='Tap again to remove';
+  setTimeout(()=>{if(btn.isConnected){delete btn.dataset.armed;btn.textContent=old}},3500);
+}
+
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]');if(!el)return;
+  const act=el.dataset.act,p=V.page;
+  if(el.closest('summary')&&act==='season')e.preventDefault();
+  switch(act){
+    case 'tab':V.tab=el.dataset.tab;try{localStorage.setItem('nextup.tab',V.tab)}catch(x){}render();scrollTo(0,0);break;
+    case 'filter':V.filter=el.dataset.f;render();break;
+    case 'mseg':V.mseg=el.dataset.s;render();break;
+    case 'menu':openMenu();break;
+    case 'close-menu':closeMenu();break;
+    case 'refresh-all':closeMenu();refreshAll(true);break;
+    case 'bulk':closeMenu();if(p)history.replaceState({np:1},'');p?(V.page={type:'bulk'},renderPage()):openPage({type:'bulk'});break;
+    case 'backup':closeMenu();backup();break;
+    case 'about':closeMenu();openPage({type:'about'});break;
+    case 'add':openPage({type:'add',kind:V.tab==='movies'?'movie':'tv'});break;
+    case 'add-movie':openPage({type:'add',kind:'movie'});break;
+    case 'back':closePage();break;
+    case 'open-show':openPage({type:'show',id:+el.dataset.id});break;
+    case 'open-movie':openPage({type:'movie',id:el.dataset.id});break;
+    case 'quick':{e.stopPropagation();const sh=S.shows[el.dataset.id],n=info(sh).next;if(!n)break;
+      sh.watched.push(n.id);sh.lastWatched=Date.now();save();render();
+      toast(`${sh.name} ${code(n)} watched`,()=>{sh.watched=sh.watched.filter(x=>x!==n.id);save();render()});break}
+    case 'ep':{const sh=S.shows[p.id],id=+el.dataset.ep;
+      if(sh.watched.includes(id))sh.watched=sh.watched.filter(x=>x!==id);else{sh.watched.push(id);sh.lastWatched=Date.now()}
+      save();renderPage();break}
+    case 'season':{const sh=S.shows[p.id],s=+el.dataset.s,on=el.dataset.on==='1';
+      const ids=sh.episodes.filter(x=>x.s===s&&(aired(x)||!on)).map(x=>x.id);
+      sh.watched=sh.watched.filter(x=>!ids.includes(x));if(on){sh.watched.push(...ids);sh.lastWatched=Date.now()}
+      p.open.add(s);save();renderPage();break}
+    case 'set-progress':{const sh=S.shows[p.id];setProgress(sh,$('#progSel').value);save();renderPage();toast('Progress updated');break}
+    case 'refresh-one':{const sh=S.shows[p.id];el.disabled=true;el.textContent='Refreshing…';
+      fetchShow(sh.id).then(j=>{S.shows[sh.id]=fromApi(j,sh);save();renderPage();toast('Episode list updated')})
+        .catch(()=>{el.disabled=false;el.textContent='Refresh episodes';toast("Couldn't refresh. Check you're online.")});break}
+    case 'remove-show':armRemove(el,()=>{const n=S.shows[p.id].name;delete S.shows[p.id];save();closePage();toast(`Removed ${n}`)});break;
+    case 'add-kind':p.kind=el.dataset.k;p.res=null;renderAdd();break;
+    case 'add-show':addShowById(+el.dataset.id,el);break;
+    case 'add-movie-res':{const m=p.res[+el.dataset.ix];if(S.movies.some(x=>x.id===m.id))break;
+      S.movies.push({...m,watched:false,added:Date.now()});save();el.disabled=true;el.textContent='Added';el.classList.remove('pri');toast(`${m.title} added to your watchlist`);break}
+    case 'add-movie-manual':{const t=(p.q||'').trim();if(!t)break;
+      S.movies.push({id:'m'+Date.now(),title:t,year:'',image:'',genre:'',runtime:0,rating:'',overview:'',watched:false,added:Date.now()});
+      save();el.disabled=true;el.textContent='Added';toast(`${t} added`);break}
+    case 'movie-toggle':{const m=S.movies.find(x=>x.id===p.id);m.watched=!m.watched;m.watchedAt=m.watched?Date.now():null;save();renderPage();
+      toast(m.watched?'Moved to Watched':'Back on your watchlist');break}
+    case 'remove-movie':armRemove(el,()=>{S.movies=S.movies.filter(x=>x.id!==p.id);save();closePage()});break;
+    case 'bulk-go':bulkAdd();break;
+  }
+});
+document.addEventListener('toggle',e=>{
+  if(e.target.matches&&e.target.matches('details.season')&&V.page&&V.page.open){
+    const s=+e.target.dataset.s;e.target.open?V.page.open.add(s):V.page.open.delete(s);}
+},true);
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.matches('[role=button]'))e.target.click();
+  if(e.key==='Escape'){if(!$('#menu').hidden)closeMenu();else closePage()}
+});
+
+render();
+if(Date.now()-(S.lastRefresh||0)>6*36e5)refreshAll(false);
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
