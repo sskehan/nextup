@@ -25,13 +25,33 @@
   --accent:#d96400;--accent-ink:#ffffff;--good:#1f8a52;--bad:#c23b2e;color-scheme:light}
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0}
 body{background:var(--bg);color:var(--fg);font:15px/1.4 var(--body);-webkit-tap-highlight-color:transparent;min-height:100vh}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
 .pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
 .top{display:flex;align-items:center;gap:4px;padding-block:10px 2px}
-.brand{font:700 27px/1 var(--display);letter-spacing:.01em;flex:1;display:flex;align-items:center;gap:9px;margin:0}
+.brandwrap{flex:1;min-width:0;display:grid;gap:3px}
+.brand{font:700 27px/1 var(--display);letter-spacing:.01em;display:flex;align-items:center;gap:9px;margin:0}
+.syncline{justify-self:start;border:0;background:none;padding:2px 0 2px 19px;font:500 12px/1.2 var(--body);color:var(--muted);cursor:pointer;text-align:left;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.syncline.ok{color:var(--good)} .syncline.warn{color:var(--accent)}
+.menuver{padding:10px 12px 6px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:4px}
+.menu .mh{padding:10px 12px 4px;font:600 11px/1 var(--body);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.menu button[aria-checked=true]{color:var(--accent);font-weight:600}
+.menu button[aria-checked=true]::after{content:"✓";float:right}
+.panel h3{font:700 21px/1.1 var(--display);margin:0}
+.panel p{margin:0}
+.panel.alert{border-color:var(--accent)}
+.toggle{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
+.toggle input{width:20px;height:20px;accent-color:var(--accent)}
+.snap{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.snap .t{flex:1;min-width:0}
+.snap small{color:var(--muted);display:block}
+.help h3{font:700 21px/1.1 var(--display);margin:24px 0 6px}
+.help p,.help li{max-width:65ch;color:var(--fg)}
+.help ul{padding-left:20px;margin:6px 0;display:grid;gap:6px}
+.help .note{margin-top:6px}
 .brand i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
 .iconbtn{width:42px;height:42px;border:0;background:transparent;color:var(--fg);border-radius:50%;display:grid;place-items:center;cursor:pointer;flex:none}
 .iconbtn:active{background:var(--raise)}
@@ -39,9 +59,9 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
 .spin svg{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .tabs{display:flex}
-.tab{flex:1;border:0;background:none;color:var(--muted);font:600 14px/1 var(--body);letter-spacing:.07em;text-transform:uppercase;padding:13px 0 11px;border-bottom:3px solid transparent;cursor:pointer}
+.tab{flex:1;border:0;background:none;color:var(--muted);font:600 13px/1 var(--body);letter-spacing:.04em;white-space:nowrap;text-transform:uppercase;padding:13px 0 11px;border-bottom:3px solid transparent;cursor:pointer}
 .tab[aria-selected=true]{color:var(--fg);border-color:var(--accent)}
-.tab small{color:var(--accent);margin-left:5px;letter-spacing:0;font-size:13px}
+.tab small{color:var(--accent);margin-left:4px;letter-spacing:0;font-size:12px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding-block:14px 4px;scrollbar-width:none}
 .chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:8px 14px;font:500 13px/1 var(--body);cursor:pointer}
 .chip[aria-pressed=true]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
@@ -179,6 +199,24 @@ details.season summary::-webkit-details-marker{display:none}
 .eye[aria-pressed=true]{color:var(--accent)}
 .eye:disabled{opacity:.4;cursor:default}
 .eye:active{background:var(--raise)}
+.syn{margin:8px 0 2px;color:var(--muted);font-size:14px;line-height:1.45;max-width:65ch;white-space:normal}
+.syn.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;margin-top:6px}
+.syn.clamp.open{display:block}
+.nextup .t .syn{white-space:normal}
+.ep .t[data-act=ep-syn]{cursor:pointer}
+.ep .t[aria-expanded=true] div{white-space:normal}
+.sglist{display:grid;margin-top:8px}
+.sg{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.poster.sm{width:72px;flex:none}
+.poster.sm .ph{font-size:13px}
+.sg .t{flex:1;min-width:0;display:grid;gap:6px;align-content:start}
+.sg .t b{font-size:16px;font-weight:600}
+.sg .t small{color:var(--muted);font-size:13px}
+.sg .t small strong{color:var(--fg);font-weight:600}
+.sgnote{margin:0;font-style:italic}
+.sgsum{margin:0;color:var(--muted);font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+.sgsum.open{display:block}
+.sg .row{margin-top:2px}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion:no-preference){.card .poster{transition:transform .15s}.card:active .poster{transform:scale(.97)}}
 @media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
@@ -187,7 +225,8 @@ details.season summary::-webkit-details-marker{display:none}
 <body>
 <header>
   <div class="top pad">
-    <h1 class="brand"><i></i>Next Up</h1>
+    <div class="brandwrap"><h1 class="brand"><i></i>Next Up</h1><button id="syncLine" class="syncline" data-act="open-backup"></button></div>
+    <button class="iconbtn" id="sortBtn" data-act="sort" aria-label="Sort"></button>
     <button class="iconbtn" id="refreshBtn" data-act="refresh-all" aria-label="Refresh episode lists"></button>
     <button class="iconbtn" data-act="menu" aria-label="More options"></button>
   </div>
@@ -195,6 +234,7 @@ details.season summary::-webkit-details-marker{display:none}
     <button class="tab" role="tab" data-act="tab" data-tab="shows">Shows</button>
     <button class="tab" role="tab" data-act="tab" data-tab="upcoming">Upcoming</button>
     <button class="tab" role="tab" data-act="tab" data-tab="movies">Movies</button>
+    <button class="tab" role="tab" data-act="tab" data-tab="suggested">Suggested</button>
   </nav>
 </header>
 <main id="main" class="pad"></main>
@@ -204,10 +244,12 @@ details.season summary::-webkit-details-marker{display:none}
 <div id="menu" class="menu" hidden>
   <button data-act="refresh-all">Refresh all shows</button>
   <button data-act="bulk">Add several shows at once</button>
-  <button data-act="backup">Back up to file</button>
-  <label for="restoreFile">Restore from backup file</label>
-  <button data-act="about">About &amp; storage</button>
+  <button data-act="open-backup">Backup &amp; restore</button>
+  <button data-act="help">Help</button>
+  <button data-act="about">About</button>
+  <div class="menuver" id="menuVer"></div>
 </div>
+<div id="sortMenu" class="menu" hidden></div>
 <input type="file" id="restoreFile" accept="application/json,.json" hidden>
 <div id="toast" class="toast" hidden></div>
 
@@ -233,25 +275,47 @@ const ICON={
   info:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M11 10.5h2V17h-2zM11 7h2v2h-2z" fill="var(--bg)"/></svg>',
   tag:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6a2 2 0 0 1 2-2h9.2a2 2 0 0 1 1.5.7l5 6a2 2 0 0 1 0 2.6l-5 6a2 2 0 0 1-1.5.7H5a2 2 0 0 1-2-2z"/></svg>',
   tv:svg('<rect x="3" y="5" width="18" height="12" rx="1.5"/><path d="M8 20h8"/>'),
+  sort:svg('<path d="M7 4v16M3.5 16.5 7 20l3.5-3.5M14 6h7M14 11h5M14 16h3"/>'),
+  friend:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="8" r="4"/><path d="M1.5 20c0-4 3.4-6.5 7.5-6.5s7.5 2.5 7.5 6.5z"/><circle cx="17.5" cy="7" r="3" opacity=".6"/><path d="M17 12.6c3.2.3 5.5 2.4 5.5 5.9H18c0-2.3-.4-4.3-1-5.9z" opacity=".6"/></svg>',
   stats:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M7.5 11h2v6h-2zM11 7h2v10h-2zM14.5 13h2v4h-2z" fill="var(--bg)"/></svg>'
 };
-$('#refreshBtn').innerHTML=ICON.refresh;
+$('#refreshBtn').innerHTML=ICON.refresh;$('#sortBtn').innerHTML=ICON.sort;
 document.querySelector('[data-act=menu]').innerHTML=ICON.more;
 document.querySelector('.fab').innerHTML=ICON.plus;
 
-/* ---------- storage ---------- */
-function load(){
-  try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&d.shows&&d.movies)return d}catch(e){}
-  return {shows:{},movies:[],lastRefresh:0};
-}
+/* ---------- storage: IndexedDB on the phone (falls back to localStorage) ----------
+   'data' = shows & movies (what gets backed up)   'meta' = sync state and Dropbox sign-in (never backed up) */
+const APP_VERSION='1.02';
+let idb=null;
+function idbOpen(){return new Promise(res=>{try{const r=indexedDB.open('nextup',1);
+  r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=r.onblocked=()=>res(null)}catch(e){res(null)}})}
+function kvGet(k){return new Promise(res=>{
+  if(!idb){try{res(JSON.parse(localStorage.getItem('nextup.kv.'+k)))}catch(e){res(null)}return}
+  try{const r=idb.transaction('kv').objectStore('kv').get(k);r.onsuccess=()=>res(r.result??null);r.onerror=()=>res(null)}catch(e){res(null)}})}
+function kvPut(k,v){return new Promise(res=>{
+  if(!idb){try{localStorage.setItem('nextup.kv.'+k,JSON.stringify(v))}catch(e){toast('Could not save. Phone storage may be full.')}res();return}
+  try{const t=idb.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=()=>res();
+    t.onerror=t.onabort=()=>{toast('Could not save. Phone storage may be full.');res()}}catch(e){res()}})}
+const emptyData=()=>({shows:{},movies:[],suggestions:[],lastRefresh:0});
+const hasData=()=>Object.keys(S.shows).length>0||S.movies.length>0||(S.suggestions||[]).length>0;
+let S=emptyData(),M={};
+function saveMeta(){M.stamp=Date.now();return kvPut('meta',M)}
 function save(){
-  try{localStorage.setItem(KEY,JSON.stringify(S))}
-  catch(e){toast('Could not save. Phone storage may be full.')}
+  M.dirty=true;M.changes=(M.changes||0)+1;M.seq=(M.seq||0)+1;
+  kvPut('data',S);saveMeta();paintStatus();scheduleSync();
 }
-let S=load();
-const V={tab:'shows',filter:'all',mseg:'list',page:null,refreshing:false};
-try{V.tab=localStorage.getItem('nextup.tab')||'shows'}catch(e){}
-if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+async function loadAll(){
+  idb=await idbOpen();
+  let d=await kvGet('data');
+  if(!d){try{const old=JSON.parse(localStorage.getItem(KEY));if(old&&old.shows){d=old;await kvPut('data',d)}}catch(e){}} // move v1.0 data across
+  S=(d&&d.shows&&Array.isArray(d.movies))?d:emptyData();if(!Array.isArray(S.suggestions))S.suggestions=[];
+  M=await kvGet('meta')||{};
+  if(!M.deviceId){M.deviceId=Math.random().toString(36).slice(2,10);M.created=Date.now();
+    M.dirty=hasData();M.changes=M.dirty?1:0;M.seq=0;M.wifiOnly=false;await saveMeta()}
+  if(navigator.storage&&navigator.storage.persist){try{if(!(await navigator.storage.persisted()))await navigator.storage.persist()}catch(e){}}
+}
+const V={tab:'shows',filter:'all',mseg:'list',page:null,refreshing:false,sort:'az',msort:'az'};
+try{V.tab=localStorage.getItem('nextup.tab')||'shows';V.sort=localStorage.getItem('nextup.sort')||'az';V.msort=localStorage.getItem('nextup.msort')||'az'}catch(e){}
 
 /* ---------- data sources ---------- */
 async function getJSON(url,tries=2){
@@ -276,7 +340,7 @@ function jsonp(url){
 function fromApi(j,prev){
   const eps=((j._embedded&&j._embedded.episodes)||[])
     .filter(e=>e.season!=null&&e.number!=null)
-    .map(e=>({id:e.id,s:e.season,e:e.number,n:e.name||'TBA',a:e.airstamp||(e.airdate?e.airdate+'T12:00:00Z':''),r:e.runtime||0}))
+    .map(e=>({id:e.id,s:e.season,e:e.number,n:e.name||'TBA',a:e.airstamp||(e.airdate?e.airdate+'T12:00:00Z':''),r:e.runtime||0,sm:strip(e.summary)}))
     .sort((x,y)=>x.s-y.s||x.e-y.e);
   const cast=((j._embedded&&j._embedded.cast)||[]).slice(0,12).map(c=>({p:c.person&&c.person.name||'',c:c.character&&c.character.name||'',img:(c.character&&c.character.image&&c.character.image.medium)||(c.person&&c.person.image&&c.person.image.medium)||''}));
   return {
@@ -286,7 +350,7 @@ function fromApi(j,prev){
     runtime:j.runtime||j.averageRuntime||0,rating:(j.rating&&j.rating.average)||0,
     cast:cast.length?cast:(prev&&prev.cast)||[],bg:prev?prev.bg||'':'',bgTried:prev?!!prev.bgTried:false,
     episodes:eps,watched:prev?prev.watched:[],added:prev?prev.added:Date.now(),
-    lastWatched:prev?prev.lastWatched||0:0,updated:Date.now()
+    lastWatched:prev?prev.lastWatched||0:0,from:prev?prev.from||'':'',updated:Date.now()
   };
 }
 async function fetchShow(id){return getJSON(`${API}/shows/${id}?embed[]=episodes&embed[]=cast`)}
@@ -333,26 +397,44 @@ function render(){
   const listN=S.movies.filter(m=>!m.watched).length;
   document.querySelector('[data-tab=shows]').innerHTML='Shows'+(toWatch?`<small>${toWatch}</small>`:'');
   document.querySelector('[data-tab=movies]').innerHTML='Movies'+(listN?`<small>${listN}</small>`:'');
+  const sgN=(S.suggestions||[]).length;
+  document.querySelector('[data-tab=suggested]').innerHTML='Suggested'+(sgN?`<small>${sgN}</small>`:'');
   $('#refreshBtn').classList.toggle('spin',V.refreshing);
+  $('#sortBtn').hidden=V.tab==='upcoming'||V.tab==='suggested';paintStatus();
   const main=$('#main');
-  main.innerHTML=V.tab==='shows'?renderShows(shows):V.tab==='movies'?renderMovies():renderUpcoming(shows);
+  main.innerHTML=V.tab==='shows'?renderShows(shows):V.tab==='movies'?renderMovies():V.tab==='suggested'?renderSuggested():renderUpcoming(shows);
 }
 function renderShows(shows){
-  if(!shows.length)return `<div class="empty"><h2>Bring your shows across from Twee</h2>
+  if(!shows.length)return `${!dbxOn()?`<div class="empty"><h2>New phone, or cleared Chrome?</h2>
+    <p>If you've used Dropbox backup before, connect it and all your shows and movies come back.</p>
+    <div class="row"><button class="btn pri" data-act="dbx-connect">Get my shows from Dropbox</button></div></div>`:''}
+    <div class="empty"><h2>Bring your shows across from Twee</h2>
     <p>Paste a list of show names and how far you're up to, and Next Up fetches every season and episode for you. Your shows from Twee are already filled in from your screenshots.</p>
-    <div class="row"><button class="btn pri" data-act="bulk">Import my Twee shows</button><button class="btn" data-act="add">Search for a show</button></div></div>`;
+    <div class="row"><button class="btn ${dbxOn()?'pri':''}" data-act="bulk">Import my Twee shows</button><button class="btn" data-act="add">Search for a show</button></div></div>`;
   const list=shows.map(sh=>({sh,i:info(sh)}));
   const c={all:list.length,towatch:0,caughtup:0,finished:0};list.forEach(x=>c[x.i.state]++);
   const rank={towatch:0,caughtup:1,finished:2};
-  const far=Number.MAX_SAFE_INTEGER;
-  list.sort((x,y)=>rank[x.i.state]-rank[y.i.state]
-    ||(x.i.state==='towatch'?(y.sh.lastWatched||y.sh.added)-(x.sh.lastWatched||x.sh.added):0)
-    ||(x.i.state==='caughtup'?(x.i.upcoming?Date.parse(x.i.upcoming.a):far)-(y.i.upcoming?Date.parse(y.i.upcoming.a):far):0)
-    ||x.sh.name.localeCompare(y.sh.name));
+  list.sort(showSorter(V.sort,rank));
   const shown=V.filter==='all'?list:list.filter(x=>x.i.state===V.filter);
   const chip=(k,l)=>`<button class="chip" data-act="filter" data-f="${k}" aria-pressed="${V.filter===k}">${l} · ${c[k]}</button>`;
   return `<div class="chips">${chip('all','All')}${chip('towatch','To watch')}${chip('caughtup','Caught up')}${chip('finished','Finished')}</div>
     ${shown.length?`<div class="grid">${shown.map(showCard).join('')}</div>`:`<p class="note" style="margin-top:20px">Nothing here yet.</p>`}`;
+}
+const sortName=s=>String(s||'').replace(/^the\s+/i,'').toLowerCase();
+function showSorter(k,rank){
+  const far=Number.MAX_SAFE_INTEGER,az=(x,y)=>sortName(x.sh.name).localeCompare(sortName(y.sh.name));
+  const up=x=>x.i.upcoming?Date.parse(x.i.upcoming.a):far;
+  return {az,
+    towatch:(x,y)=>rank[x.i.state]-rank[y.i.state]||az(x,y),
+    recent:(x,y)=>(y.sh.lastWatched||0)-(x.sh.lastWatched||0)||az(x,y),
+    airdate:(x,y)=>up(x)-up(y)||az(x,y)}[k]||az;
+}
+const SHOW_SORTS=[['az','A–Z'],['towatch','To watch first'],['recent','Recently watched'],['airdate','Next air date']];
+const MOVIE_SORTS=[['az','A–Z'],['added','Recently added'],['year','Year (newest first)']];
+function openSort(){
+  const mv=V.tab==='movies',opts=mv?MOVIE_SORTS:SHOW_SORTS,cur=mv?V.msort:V.sort;
+  $('#sortMenu').innerHTML=`<div class="mh">Sort ${mv?'movies':'shows'}</div>`+opts.map(([k,l])=>`<button role="menuitemradio" aria-checked="${cur===k}" data-act="set-sort" data-k="${k}">${l}</button>`).join('');
+  $('#sortMenu').hidden=false;$('#scrim').hidden=false;
 }
 function showCard({sh,i}){
   const pct=i.aired?Math.round(i.seen/i.aired*100):0;
@@ -385,9 +467,33 @@ function renderUpcoming(shows){
   if(!h)h=`<div class="empty"><h2>Nothing scheduled in the next two months</h2><p>New episodes for your shows appear here once the networks announce air dates. Times are shown in your phone's time zone (US air time for US shows).</p></div>`;
   return h;
 }
+function friends(){const seen=new Map();for(const x of [...(S.suggestions||[]),...S.movies,...Object.values(S.shows)])if(x.from){const k=x.from.trim().toLowerCase();if(k&&!seen.has(k))seen.set(k,x.from.trim())}return [...seen.values()].sort((a,b)=>a.localeCompare(b))}
+function renderSuggested(){
+  const all=(S.suggestions||[]).slice().sort((a,b)=>b.added-a.added);
+  if(!all.length)return `<div class="empty"><h2>Shows and movies friends recommend</h2>
+    <p>When someone says "you've got to watch…", save it here with their name and a note. When you're ready, tap <b>Start watching</b> and it moves to your Shows or your movie watchlist, still showing who suggested it.</p>
+    <div class="row"><button class="btn pri" data-act="add-suggest">Add a suggestion</button></div></div>`;
+  const fr=[...new Set(all.map(x=>x.from||'A friend'))].sort((a,b)=>a.localeCompare(b));
+  if(V.sgFrom&&!fr.includes(V.sgFrom))V.sgFrom='';
+  const kinds={tv:all.filter(x=>x.kind==='tv').length,movie:all.filter(x=>x.kind==='movie').length};
+  const list=all.filter(x=>(!V.sgFrom||(x.from||'A friend')===V.sgFrom)&&(!V.sgKind||x.kind===V.sgKind));
+  const chip=(act,k,cur,l)=>`<button class="chip" data-act="${act}" data-k="${esc(k)}" aria-pressed="${cur===k}">${esc(l)}</button>`;
+  return `<div class="chips">${chip('sg-kind','',V.sgKind||'','All · '+all.length)}${chip('sg-kind','tv',V.sgKind||'','TV · '+kinds.tv)}${chip('sg-kind','movie',V.sgKind||'','Movies · '+kinds.movie)}</div>
+    ${fr.length>1?`<div class="chips" style="padding-top:4px">${chip('sg-from','',V.sgFrom||'','Everyone')}${fr.map(f=>chip('sg-from',f,V.sgFrom||'',f)).join('')}</div>`:''}
+    <div class="sglist">${list.map(x=>`<div class="sg">
+      <div class="poster sm">${posterImg(x.image,x.title)}</div>
+      <div class="t"><b>${esc(x.title)}</b>
+        <small>${x.kind==='tv'?'TV show':'Movie'}${x.year?' · '+esc(x.year):''} · from <strong>${esc(x.from||'a friend')}</strong>, ${fmtDate(x.added)}</small>
+        ${x.note?`<p class="sgnote">“${esc(x.note)}”</p>`:''}
+        ${x.summary?`<p class="sgsum" data-act="expand">${esc(x.summary)}</p>`:''}
+        <div class="row"><button class="btn pri small" data-act="sg-accept" data-id="${esc(x.id)}">${x.kind==='tv'?'Start watching':'Add to watchlist'}</button>
+          <a class="btn small" href="https://www.justwatch.com/au/search?q=${encodeURIComponent(x.title)}" target="_blank" rel="noopener">Where to watch</a>
+          <button class="btn small warn" data-act="sg-remove" data-id="${esc(x.id)}">Not for me</button></div></div></div>`).join('')}</div>`;
+}
 function renderMovies(){
-  const list=S.movies.filter(m=>V.mseg==='seen'?m.watched:!m.watched)
-    .sort((a,b)=>V.mseg==='seen'?(b.watchedAt||0)-(a.watchedAt||0):b.added-a.added);
+  const maz=(a,b)=>sortName(a.title).localeCompare(sortName(b.title));
+  const msorter={az:maz,added:(a,b)=>(b.added||0)-(a.added||0)||maz(a,b),year:(a,b)=>(+b.year||0)-(+a.year||0)||maz(a,b)}[V.msort]||maz;
+  const list=S.movies.filter(m=>V.mseg==='seen'?m.watched:!m.watched).sort(msorter);
   const nList=S.movies.filter(m=>!m.watched).length,nSeen=S.movies.length-nList;
   let h=`<div class="seg"><button data-act="mseg" data-s="list" aria-pressed="${V.mseg==='list'}">To watch · ${nList}</button><button data-act="mseg" data-s="seen" aria-pressed="${V.mseg==='seen'}">Watched · ${nSeen}</button></div>`;
   if(!list.length)return h+`<div class="empty"><h2>${V.mseg==='seen'?'No watched movies yet':'Your movie watchlist is empty'}</h2><p>${V.mseg==='seen'?'Movies you mark as watched move here, with the date you saw them.':'Tap + and switch to Movies to search for something you want to see.'}</p>${V.mseg==='list'?'<div class="row"><button class="btn pri" data-act="add-movie">Find a movie</button></div>':''}</div>`;
@@ -409,6 +515,8 @@ function renderPage(){
   else if(p.type==='add')renderAdd();
   else if(p.type==='bulk')el.innerHTML=bulkPage();
   else if(p.type==='about')el.innerHTML=aboutPage();
+  else if(p.type==='backup')el.innerHTML=backupPage();
+  else if(p.type==='help')el.innerHTML=helpPage();
 }
 const fmtAir=t=>new Date(t).toLocaleString('en-AU',{day:'numeric',month:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'}).replace(',','');
 function fmtLeft(min){const hr=Math.floor(min/60),m=min%60;return [hr?hr+(hr===1?' hour':' hours'):'',m?m+(m===1?' minute':' minutes'):''].filter(Boolean).join(', ')||'0 minutes'}
@@ -426,12 +534,13 @@ function showPage(sh){
     <h1 class="pad">${esc(sh.name)}${year?` <span>(${year})</span>`:''}</h1></div>
     <div class="ptabs"><button data-act="ptab" data-t="overview" aria-selected="${p.ptab==='overview'}">Overview</button><button data-act="ptab" data-t="episodes" aria-selected="${p.ptab==='episodes'}">Episodes${i.unseen?` <small>${i.unseen}</small>`:''}</button></div>`;
   if(p.ptab==='overview'){
-    const up=i.next?`<div class="nextup"><div class="t"><span class="lbl">Up next</span><div><b>${code(i.next)}</b> ${esc(i.next.n)}</div><small>Aired ${fmtAir(i.next.a)}</small></div><button class="btn pri small" data-act="mark-next">${ICON.eye} Watched</button></div>`
+    const up=i.next?`<div class="nextup"><div class="t"><span class="lbl">Up next</span><div><b>${code(i.next)}</b> ${esc(i.next.n)}</div><small>Aired ${fmtAir(i.next.a)}</small>${i.next.sm?`<p class="syn clamp" data-act="expand">${esc(i.next.sm)}</p>`:''}</div><button class="btn pri small" data-act="mark-next">${ICON.eye} Watched</button></div>`
       :i.upcoming?`<div class="nextup"><div class="t"><span class="lbl">All caught up</span><div><b>${code(i.upcoming)}</b> ${esc(i.upcoming.n)}</div><small>Airs ${fmtAir(i.upcoming.a)}</small></div></div>`
       :`<div class="nextup"><div class="t"><span class="lbl">${i.state==='finished'?'Finished':'All caught up'}</span><div>No episodes left to watch</div></div></div>`;
     return banner+`<div class="pad ov">
       ${up}
       <div class="orow"><span class="oi">${ICON.info}</span><div>${stars(sh.rating)}${sh.summary?`<p class="sum${p.more?' open':''}" data-act="more">${esc(sh.summary)}</p>`:'<p class="note">No description available.</p>'}</div></div>
+      ${sh.from?`<div class="orow"><span class="oi">${ICON.friend}</span><div>Suggested by <b>${esc(sh.from)}</b>${sh.fromNote?`<br><span class="note">“${esc(sh.fromNote)}”</span>`:''}</div></div>`:''}
       ${sh.genres.length?`<div class="orow"><span class="oi">${ICON.tag}</span><div>${esc(sh.genres.join(', '))}</div></div>`:''}
       <div class="orow"><span class="oi">${ICON.tv}</span><div>${[sh.runtime?sh.runtime+' minutes':'',esc(sh.status==='Running'?'Still running':sh.status),esc(sh.network)].filter(Boolean).join('<br>')}</div></div>
       <div class="orow"><span class="oi">${ICON.stats}</span><div style="flex:1;min-width:0"><div class="pbar"><div class="track"><span style="width:${pct}%"></span></div><b>${i.seen}/${i.aired}</b></div>
@@ -447,13 +556,14 @@ function showPage(sh){
   let lastSeen=null;sh.episodes.forEach(e=>{if(w.has(e.id))lastSeen=e});
   const opts=['<option value="NONE">Haven\'t started</option>'].concat(sh.episodes.filter(aired).map(e=>`<option value="${code(e)}"${lastSeen&&lastSeen.id===e.id?' selected':''}>${code(e)} · ${esc(e.n)}</option>`)).join('');
   return banner+`<div class="pad">
-    <p class="note" style="margin-top:14px">Tap the eye to mark an episode watched. Press and hold it to mark everything up to that episode.</p>
+    <p class="note" style="margin-top:14px">Tap an episode to read what it's about. Tap the eye to mark it watched, or press and hold the eye to mark everything up to that episode.</p>
     ${Object.keys(seasons).sort((a,b)=>b-a).map(s=>{
       const eps=seasons[s].slice().reverse(),seenN=eps.filter(e=>w.has(e.id)).length,airedN=eps.filter(aired).length,full=airedN&&seenN>=airedN;
       return `<details class="season" data-s="${s}"${p.open.has(+s)?' open':''}><summary><span class="sn">${+s===0?'Specials':'Season '+s}</span><span class="sc${full?' full':''}">${seenN}/${eps.length}</span>
         <button class="mini" data-act="season" data-s="${s}" data-on="${full?0:1}">${full?'Unwatch all':'Watch all'}</button></summary>
         ${eps.map(e=>{const a=aired(e),on=w.has(e.id);return `<div class="ep${a?'':' future'}${on?' seen':''}">
-          <div class="t"><div><span class="code">${code(e)}</span> ${esc(e.n)}</div><small>${e.a?(a?'Aired ':'Airs ')+fmtAir(e.a):'Date to be announced'}</small></div>
+          <div class="t" data-act="ep-syn" data-ep="${e.id}" role="button" tabindex="0" aria-expanded="${!!(p.syn&&p.syn.has(e.id))}"><div><span class="code">${code(e)}</span> ${esc(e.n)}</div><small>${e.a?(a?'Aired ':'Airs ')+fmtAir(e.a):'Date to be announced'}${e.r?' · '+e.r+' min':''}</small>
+            ${p.syn&&p.syn.has(e.id)?`<p class="syn">${e.sm?esc(e.sm):'sm' in e?'No synopsis yet. TVmaze usually adds one around air date.':'Synopsis loading. Tap refresh at the top of the main screen if it doesn\'t appear.'}</p>`:''}</div>
           <button class="eye" data-act="ep" data-ep="${e.id}" aria-pressed="${on}" aria-label="Watched ${code(e)}"${a||on?'':' disabled'}>${ICON.eye}</button></div>`}).join('')}
       </details>`}).join('')}
     <div class="panel"><label for="progSel">Set my progress: watched up to</label>
@@ -466,6 +576,7 @@ function moviePage(m){
       <div class="meta"><h1>${esc(m.title)}</h1>
         <div class="sub">${esc([m.year,m.genre,m.runtime?m.runtime+' min':'',m.rating].filter(Boolean).join(' · '))}</div>
         ${m.watched?`<span class="pill live">Watched${m.watchedAt?' '+fmtDate(m.watchedAt):''}</span>`:'<span class="pill">On your watchlist</span>'}</div></div>
+    ${m.from?`<p class="summary">Suggested by <b style="color:var(--fg)">${esc(m.from)}</b>${m.note?`: “${esc(m.note)}”`:''}</p>`:''}
     ${m.overview?`<p class="summary">${esc(m.overview)}</p>`:''}
     <div class="row" style="margin-top:20px">
       <button class="btn pri" data-act="movie-toggle">${m.watched?'Move back to watchlist':'Mark as watched'}</button>
@@ -474,15 +585,24 @@ function moviePage(m){
 }
 function renderAdd(){
   const p=V.page,el=$('#page');
-  el.innerHTML=bar('Add')+`<div class="pad">
+  const fr=friends();
+  el.innerHTML=bar(p.suggest?'Add a suggestion':'Add')+`<div class="pad">
+    ${p.suggest?`<div class="panel" style="margin-bottom:4px"><label for="sgFrom">Suggested by</label>
+      <input type="text" id="sgFrom" placeholder="Friend's name" autocomplete="off" value="${esc(p.from||'')}">
+      ${fr.length?`<div class="chips" style="padding:0">${fr.map(f=>`<button class="chip" data-act="sg-pick" data-f="${esc(f)}" aria-pressed="${(p.from||'')===f}">${esc(f)}</button>`).join('')}</div>`:''}
+      <label for="sgNote">Their comment (optional)</label>
+      <input type="text" id="sgNote" placeholder="e.g. Best thing I've seen this year" autocomplete="off" value="${esc(p.note||'')}"></div>`:''}
     <div class="seg"><button data-act="add-kind" data-k="tv" aria-pressed="${p.kind==='tv'}">TV show</button><button data-act="add-kind" data-k="movie" aria-pressed="${p.kind==='movie'}">Movie</button></div>
     <div style="margin-top:14px"><input type="search" id="q" placeholder="${p.kind==='tv'?'Search TV shows, e.g. Reacher':'Search movies, e.g. Dune'}" autocomplete="off" enterkeyhint="search" value="${esc(p.q||'')}"></div>
     <div class="results" id="results"></div>
     ${p.kind==='tv'?'<p class="note" style="margin-top:16px">Moving a lot of shows over? <button class="mini" data-act="bulk">Add several at once</button></p>':''}</div>`;
-  const q=$('#q');q.focus();
+  const q=$('#q');if(!p.suggest||p.from)q.focus();else $('#sgFrom').focus();
+  if(p.suggest){$('#sgFrom').addEventListener('input',e=>{p.from=e.target.value;document.querySelectorAll('[data-act=sg-pick]').forEach(c=>c.setAttribute('aria-pressed',c.dataset.f===p.from))});
+    $('#sgNote').addEventListener('input',e=>{p.note=e.target.value})}
   q.addEventListener('input',()=>{clearTimeout(p.t);p.q=q.value;p.t=setTimeout(doSearch,450)});
   if(p.q)doSearch();
 }
+const manualRow=(p,q)=>`<div class="res"><div class="noimg"></div><div class="t"><b>Not listed?</b><small>Add “${esc(q)}” with just the title. Apple's catalogue often misses cinema releases and streaming-service originals.</small></div><button class="btn small" data-act="${p.suggest?'sg-save-manual':'add-movie-manual'}">${p.suggest?'Save':'Add'}</button></div>`;
 async function doSearch(){
   const p=V.page;if(!p||p.type!=='add')return;
   const q=(p.q||'').trim(),box=$('#results');if(!box)return;
@@ -497,7 +617,8 @@ async function doSearch(){
       box.innerHTML=p.res.length?p.res.map(s=>{const have=!!S.shows[s.id];
         return `<div class="res">${s.image?`<img src="${esc(s.image.medium)}" alt="" loading="lazy">`:'<div class="noimg"></div>'}
           <div class="t"><b>${esc(s.name)}</b><small>${esc([s.premiered?s.premiered.slice(0,4):'',(s.network&&s.network.name)||(s.webChannel&&s.webChannel.name)||'',s.status].filter(Boolean).join(' · '))}</small></div>
-          <button class="btn small ${have?'':'pri'}" data-act="add-show" data-id="${s.id}"${have?' disabled':''}>${have?'Added':'Add'}</button></div>`}).join('')
+          ${p.suggest?`<button class="btn small pri" data-act="sg-save" data-ix="${p.res.indexOf(s)}">Save</button>`
+          :`<button class="btn small ${have?'':'pri'}" data-act="add-show" data-id="${s.id}"${have?' disabled':''}>${have?'Added':'Add'}</button>`}</div>`}).join('')
         :'<p class="note" style="padding:12px 0">No shows found. Check the spelling, or try fewer words.</p>';
     }else{
       const d=await jsonp(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=movie&entity=movie&country=au&limit=25`);
@@ -505,13 +626,14 @@ async function doSearch(){
       p.res=(d.results||[]).map(x=>({id:'it'+x.trackId,title:x.trackName,year:x.releaseDate?x.releaseDate.slice(0,4):'',
         image:x.artworkUrl100?x.artworkUrl100.replace(/\d+x\d+bb/,'400x600bb'):'',genre:x.primaryGenreName||'',
         runtime:x.trackTimeMillis?Math.round(x.trackTimeMillis/60000):0,rating:x.contentAdvisoryRating||'',overview:x.longDescription||x.shortDescription||''}));
-      const manual=`<div class="res"><div class="noimg"></div><div class="t"><b>Not listed?</b><small>Add “${esc(q)}” with just the title.</small></div><button class="btn small" data-act="add-movie-manual">Add</button></div>`;
+      const manual=manualRow(p,q);
       box.innerHTML=p.res.map((m,ix)=>{const have=S.movies.some(x=>x.id===m.id);
         return `<div class="res">${m.image?`<img src="${esc(m.image)}" alt="" loading="lazy">`:'<div class="noimg"></div>'}
           <div class="t"><b>${esc(m.title)}</b><small>${esc([m.year,m.genre].filter(Boolean).join(' · '))}</small></div>
-          <button class="btn small ${have?'':'pri'}" data-act="add-movie-res" data-ix="${ix}"${have?' disabled':''}>${have?'Added':'Add'}</button></div>`}).join('')+manual;
+          ${p.suggest?`<button class="btn small pri" data-act="sg-save" data-ix="${ix}">Save</button>`
+          :`<button class="btn small ${have?'':'pri'}" data-act="add-movie-res" data-ix="${ix}"${have?' disabled':''}>${have?'Added':'Add'}</button>`}</div>`}).join('')+manual;
     }
-  }catch(e){if(token===p.token)box.innerHTML=`<p class="note" style="padding:12px 0">Search didn't work. Check you're online, then try again.</p>`}
+  }catch(e){if(token===p.token)box.innerHTML=`<p class="note" style="padding:12px 0">Search didn't work. Check you're online, then try again.</p>`+(p.kind==='movie'?manualRow(p,q):'')}
 }
 const TWEE=`Chicago Fire | all
 Chicago P.D. | all
@@ -547,16 +669,277 @@ function bulkPage(){
     <div class="log" id="bulkLog" style="margin-top:16px"></div></div>`;
 }
 function aboutPage(){
-  let bytes=0;try{bytes=(localStorage.getItem(KEY)||'').length}catch(e){}
+  const bytes=JSON.stringify(S).length;
   const shows=Object.values(S.shows),eps=shows.reduce((n,s)=>n+s.watched.length,0);
-  return bar('About & storage')+`<div class="pad">
+  return bar('About')+`<div class="pad">
     <div class="panel"><dl class="kv">
+      <dt>App</dt><dd>Next Up version ${APP_VERSION}</dd>
       <dt>Shows</dt><dd>${shows.length}</dd><dt>Episodes ticked</dt><dd>${eps}</dd>
       <dt>Movies</dt><dd>${S.movies.length} (${S.movies.filter(m=>m.watched).length} watched)</dd>
-      <dt>Data size</dt><dd>${(bytes/1024).toFixed(0)} KB on this phone</dd>
-      <dt>Last refresh</dt><dd>${S.lastRefresh?new Date(S.lastRefresh).toLocaleString('en-AU'):'Never'}</dd></dl></div>
-    <p class="summary">Everything is stored on this phone only. Use <b>Back up to file</b> in the menu now and then, and before changing phones or clearing Chrome's data.</p>
+      <dt>Data size</dt><dd>${(bytes/1024).toFixed(0)} KB</dd>
+      <dt>Backup</dt><dd>${dbxOn()?'Dropbox (Apps › NextUp)':'Not connected to Dropbox'}</dd>
+      <dt>Episodes refreshed</dt><dd>${S.lastRefresh?new Date(S.lastRefresh).toLocaleString('en-AU'):'Never'}</dd></dl></div>
+    <p class="summary">Your shows and movies are stored on this phone${dbxOn()?', with a live copy in your own Dropbox':''}. Nothing else is sent anywhere.</p>
     <p class="summary">TV information comes from <a href="https://www.tvmaze.com" target="_blank" rel="noopener" style="color:var(--accent)">TVmaze</a> (free, no account). Movie search uses Apple's public iTunes catalogue. Episode lists refresh automatically when you open the app, at most every 6 hours.</p></div>`;
+}
+function fmtWhen(t){if(!t)return 'Never';const d=new Date(t),today=new Date();
+  const tm=d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'});
+  if(d.toDateString()===today.toDateString())return 'Today '+tm;
+  if(d.toDateString()===new Date(Date.now()-DAY).toDateString())return 'Yesterday '+tm;
+  return fmtDate(t)+' '+tm}
+function backupPage(){
+  let h=bar('Backup & restore')+'<div class="pad">';
+  if(M.conflict)h+=`<div class="panel alert"><h3>Choose which copy to keep</h3>
+    <p>Dropbox has a copy saved ${M.conflict.when?fmtWhen(M.conflict.when):'recently'} that's different from this phone, and this phone has changes that haven't been sent yet.</p>
+    <p class="note">Whichever you don't keep is saved as a Dropbox snapshot first, so nothing is lost.</p>
+    <div class="row"><button class="btn pri" data-act="conflict-dropbox">Use the Dropbox copy</button><button class="btn" data-act="conflict-phone">Keep this phone's copy</button></div></div>`;
+  if(!dbxOn())h+=`<div class="panel"><h3>Dropbox</h3>
+    <p>Connect Dropbox and your shows and movies are kept there as well as on this phone. Every change is sent within seconds, and a full snapshot is saved each day.</p>
+    <p>If this phone is cleared, lost or replaced, connect Dropbox on the new one and everything comes back.</p>
+    ${M.syncError?`<p style="color:var(--bad)">${esc(M.syncError)}</p>`:''}
+    <div class="row"><button class="btn pri" data-act="dbx-connect">Connect Dropbox</button></div>
+    <p class="note">Next Up can only see its own folder, Apps › NextUp. It can't see anything else in your Dropbox.</p></div>`;
+  else{const st=syncText();
+    h+=`<div class="panel"><h3>Dropbox</h3>
+    <dl class="kv"><dt>Status</dt><dd style="color:${st.c==='ok'?'var(--good)':st.c==='warn'?'var(--accent)':'inherit'}">${esc(st.t)}</dd>
+      <dt>Last sync</dt><dd>${fmtWhen(M.lastSync)}</dd><dt>Last snapshot</dt><dd>${fmtWhen(M.lastSnap)}</dd>
+      <dt>Folder</dt><dd>Dropbox › Apps › NextUp</dd></dl>
+    ${M.syncError?`<p style="color:var(--bad)">${esc(M.syncError)}</p>`:''}
+    <label class="toggle" for="wifiOnly"><input type="checkbox" id="wifiOnly"${M.wifiOnly?' checked':''}> Only sync on Wi‑Fi</label>
+    <div class="row"><button class="btn pri" data-act="dbx-sync"${syncing?' disabled':''}>Sync now</button><button class="btn" data-act="dbx-snap"${syncing?' disabled':''}>Snapshot now</button></div>
+    <div class="row"><button class="btn" data-act="dbx-list">Restore a Dropbox snapshot…</button><button class="btn warn" data-act="dbx-disconnect">Disconnect</button></div>
+    <div id="snapList"></div>
+    <p class="note">In Dropbox › Apps › NextUp: <b>live</b> holds the current copy, and <b>snapshots</b> holds one full copy per day (plus one before every restore), kept for 60 days.</p></div>`}
+  h+=`<div class="panel"><h3>Backup file</h3>
+    <p>Save a single file of your shows and movies to your phone's Downloads. Use this if Dropbox isn't available.</p>
+    <div class="row"><button class="btn" data-act="backup">Save backup file</button><label class="btn" for="restoreFile">Restore from file…</label></div>
+    <p class="note">Restoring replaces everything in the app.${dbxOn()?' A snapshot of what\'s here now is saved to Dropbox first.':''}</p></div></div>`;
+  return h;
+}
+function helpPage(){
+  return bar('Help')+`<div class="pad help">
+  <h3>Shows</h3>
+  <ul><li>Each tile shows the next episode to watch. Tap the <b>✓</b> on a poster to mark that episode watched (Undo appears for a few seconds).</li>
+  <li>Use the chips (All, To watch, Caught up, Finished) to filter, and the <b>sort</b> button at the top to change the order: A–Z, To watch first, Recently watched or Next air date. "The" is ignored when sorting A–Z.</li>
+  <li>The orange number on a poster is how many aired episodes you haven't watched.</li></ul>
+  <h3>A show's page</h3>
+  <ul><li><b>Overview</b> shows the next episode with a <b>Watched</b> button, your progress and time left to watch, details and cast.</li>
+  <li><b>Episodes</b> lists every season, newest first. <b>Tap an episode</b> to read its synopsis. Tap the eye to mark it watched, tap again to undo.</li>
+  <li>The Up next card on Overview shows the next episode's synopsis. Tap it to read the rest.</li>
+  <li><b>Press and hold an eye</b> to mark every episode up to that one as watched. Use <b>Watch all</b> for a whole season.</li>
+  <li>The "Set my progress" box at the bottom of Episodes sets everything in one go.</li></ul>
+  <h3>Adding shows and movies</h3>
+  <ul><li>Tap <b>+</b>, choose TV show or Movie, and search. Tap <b>Add</b>.</li>
+  <li>To add a lot at once: ⋮ › <b>Add several shows at once</b>. One show per line, then <code>|</code> and how far you're up to: <code>all</code>, <code>S02E08</code>, <code>S01</code> or <code>none</code>. Add the year in brackets if two shows share a name, e.g. <code>Rake (2010)</code>.</li>
+  <li>Picked the wrong show? Open it, tap <b>Remove show</b> (tap twice), then add the right one.</li></ul>
+  <h3>Upcoming</h3>
+  <ul><li>Episodes that aired this week that you haven't watched, then everything due in the next two months, by day. Times are in Sydney time.</li></ul>
+  <h3>Movies</h3>
+  <ul><li><b>To watch</b> is your watchlist. Open a movie and tap <b>Mark as watched</b> to move it to <b>Watched</b> with today's date.</li>
+  <li>Movie search uses Apple's iTunes catalogue, which has most films that are out to rent or buy. Films still in cinemas, and some streaming-service originals, may not be listed. Use <b>Not listed? Add</b> to add them by title.</li>
+  <li><b>Where to watch</b> on any show or movie opens JustWatch Australia.</li></ul>
+  <h3>Suggested (from friends)</h3>
+  <ul><li>Tap the <b>Suggested</b> tab, then <b>+</b>. Type who suggested it (names you've used before appear as buttons), add their comment if you like, then search for the show or movie and tap <b>Save</b>.</li>
+  <li>Filter by TV or Movies, or by friend. <b>Where to watch</b> shows which service has it.</li>
+  <li><b>Start watching</b> (TV) or <b>Add to watchlist</b> (movie) moves it across. The show or movie page then says who suggested it. <b>Not for me</b> removes it (with Undo).</li></ul>
+  <h3>Dropbox backup</h3>
+  <ul><li>The line under "Next Up" shows the backup status. <b>In Dropbox ✓</b> means everything is saved. Tap it to open Backup & restore.</li>
+  <li>Changes go to Dropbox a few seconds after you make them. If you're offline they wait and go when you're back online.</li>
+  <li>A full snapshot is saved each day and before any restore, kept for 60 days. Restore one from ⋮ › Backup & restore.</li></ul>
+  <h3>New phone, or cleared Chrome</h3>
+  <ul><li>Open <code>sskehan.github.io/nextup</code> in Chrome, ⋮ › <b>Add to Home screen</b>.</li>
+  <li>Open the app and tap <b>Get my shows from Dropbox</b>. Sign in and allow access. Everything comes back.</li>
+  <li>If you then open the app on your old phone, it loads the newer copy from Dropbox instead of overwriting it.</li></ul>
+  <h3>When you clear Chrome's history</h3>
+  <ul><li>Untick <b>Cookies and site data</b>. Ticking it deletes the app's data on this phone. Dropbox still has it, but you'd need to reconnect.</li></ul>
+  <p class="note" style="margin-top:24px">Next Up version ${APP_VERSION}</p></div>`;
+}
+
+/* ---------- Dropbox: live copy + daily snapshots ----------
+   Dropbox › Apps › NextUp
+     live/nextup.json          the current shows & movies
+     snapshots/nextup-*.json   one per day, plus one before every restore (kept 60 days) */
+const DBX_APP_KEY='1nyd2hwfb6ffblz'; // public App key for the NextUp Dropbox app; the App secret is never used
+const DBX_TOKEN='https://api.dropboxapi.com/oauth2/token';
+const DBX_REDIRECT=location.origin+location.pathname.replace(/index\.html$/,'');
+const LIVE='/live/nextup.json';
+const dbxOn=()=>!!(M.dbx&&M.dbx.refresh);
+let syncing=false,syncT=null,retryT=null,lastCheck=0;
+const ownerName=()=>'phone set up '+fmtDate(M.created||Date.now());
+const b64url=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+class DbxErr extends Error{constructor(m,s,sum){super(m);this.status=s;this.summary=sum||''}}
+const dbxArg=o=>JSON.stringify(o).replace(/[\u007f-￿]/g,c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0'));
+const payload=()=>({app:'nextup',schema:1,appVersion:APP_VERSION,updatedAt:new Date().toISOString(),owner:M.deviceId,ownerName:ownerName(),
+  data:{shows:slimShows(),movies:S.movies,suggestions:S.suggestions||[],lastRefresh:S.lastRefresh||0}});
+function slimShows(){const o={};for(const [k,sh] of Object.entries(S.shows))o[k]={...sh,episodes:sh.episodes.map(({sm,...e})=>e)};return o}
+const hasSyn=sh=>!sh.episodes.length||sh.episodes.some(e=>'sm' in e);
+const needsRefresh=()=>Date.now()-(S.lastRefresh||0)>6*36e5||Object.values(S.shows).some(sh=>!hasSyn(sh));
+function readPayload(j){const d=j&&(j.data||j);
+  if(!d||typeof d.shows!=='object'||!d.shows||!Array.isArray(d.movies))throw new Error("That isn't a Next Up backup");
+  return {shows:d.shows,movies:d.movies,suggestions:Array.isArray(d.suggestions)?d.suggestions:[],lastRefresh:d.lastRefresh||0}}
+function snapName(kind){const d=new Date();
+  return `/snapshots/nextup-${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}${kind?'-'+pad(d.getHours())+pad(d.getMinutes())+'-'+kind:''}.json`}
+
+function syncText(){
+  if(!dbxOn())return hasData()?{t:'Not backed up · tap to set up',c:'warn'}:{t:'Version '+APP_VERSION,c:''};
+  if(M.conflict)return {t:'Dropbox copy differs · tap to choose',c:'warn'};
+  if(syncing)return {t:'Syncing with Dropbox…',c:''};
+  if(M.syncError)return {t:'Dropbox sync failed · tap',c:'warn'};
+  if(M.dirty){const n=M.changes||1;return {t:`${n} change${n===1?'':'s'} waiting for Dropbox${mobileBlocked()?' (Wi‑Fi)':''}`,c:''}}
+  return {t:'In Dropbox ✓',c:'ok'};
+}
+function paintStatus(){const el=$('#syncLine');if(!el)return;const s=syncText();el.textContent=s.t;el.className='syncline '+s.c;
+  const mv=$('#menuVer');if(mv)mv.textContent='Next Up version '+APP_VERSION}
+
+async function dbxConnect(){
+  if(!navigator.onLine){toast("You're offline. Connect Dropbox when you have internet.");return}
+  const v=b64url(crypto.getRandomValues(new Uint8Array(48))),state=b64url(crypto.getRandomValues(new Uint8Array(12)));
+  const challenge=b64url(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)));
+  M.pkce={v,state};M.syncError=null;await saveMeta();
+  location.href='https://www.dropbox.com/oauth2/authorize?'+new URLSearchParams({client_id:DBX_APP_KEY,response_type:'code',
+    code_challenge:challenge,code_challenge_method:'S256',redirect_uri:DBX_REDIRECT,token_access_type:'offline',state});
+}
+async function dbxReturn(){
+  const p=new URLSearchParams(location.search);
+  if(!p.has('code')&&!p.has('error'))return false;
+  history.replaceState(null,'',DBX_REDIRECT);
+  if(p.has('error')){toast('Dropbox not connected: '+(p.get('error_description')||p.get('error')).replace(/\+/g,' '));return true}
+  if(!M.pkce||p.get('state')!==M.pkce.state){toast("That Dropbox sign-in didn't match. Tap Connect Dropbox again.");return true}
+  try{
+    const r=await fetch(DBX_TOKEN,{method:'POST',body:new URLSearchParams({grant_type:'authorization_code',code:p.get('code'),
+      client_id:DBX_APP_KEY,code_verifier:M.pkce.v,redirect_uri:DBX_REDIRECT})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.refresh_token)throw new Error(j.error_description||j.error||'HTTP '+r.status);
+    M.dbx={refresh:j.refresh_token,access:j.access_token,expires:Date.now()+(j.expires_in||14400)*1000};
+    M.pkce=null;M.dbxRev=null;M.syncError=null;M.conflict=null;await saveMeta();
+    toast(matchMedia('(display-mode: standalone)').matches?'Dropbox connected':'Dropbox connected. You can close this tab and open Next Up from your home screen.');
+  }catch(e){M.pkce=null;M.syncError='Dropbox sign-in failed: '+(e.message||e);await saveMeta();toast(M.syncError)}
+  return true;
+}
+async function dbxToken(){
+  const d=M.dbx;if(!d||!d.refresh)throw new Error('Dropbox is not connected');
+  if(d.access&&d.expires>Date.now()+60000)return d.access;
+  const r=await fetch(DBX_TOKEN,{method:'POST',body:new URLSearchParams({grant_type:'refresh_token',refresh_token:d.refresh,client_id:DBX_APP_KEY})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok){if(j.error==='invalid_grant'){M.dbx=null;M.syncError='Dropbox access was removed or has expired. Connect Dropbox again.';await saveMeta()}
+    throw new Error(j.error_description||j.error||'HTTP '+r.status)}
+  d.access=j.access_token;d.expires=Date.now()+(j.expires_in||14400)*1000;await saveMeta();return d.access;
+}
+async function dbxCall(url,opt={},retry=true){
+  const tok=await dbxToken();
+  const r=await fetch(url,{method:'POST',...opt,headers:{...(opt.headers||{}),Authorization:'Bearer '+tok}});
+  if(r.status===401&&retry){M.dbx.access=null;return dbxCall(url,opt,false)}
+  if(r.status===429&&retry){await sleep(3000);return dbxCall(url,opt,false)}
+  if(!r.ok){const t=await r.text().catch(()=>'');let s=t;try{s=JSON.parse(t).error_summary||t}catch(e){}
+    throw new DbxErr('Dropbox '+r.status+': '+String(s).slice(0,120),r.status,String(s))}
+  return r;
+}
+async function dbxApi(ep,arg){const r=await dbxCall('https://api.dropboxapi.com/2/'+ep,arg===undefined?{}:{headers:{'Content-Type':'application/json'},body:JSON.stringify(arg)});
+  const t=await r.text();return t?JSON.parse(t):null}
+async function dbxMeta(path){try{return await dbxApi('files/get_metadata',{path})}catch(e){if(e.status===409&&/not_found/.test(e.summary))return null;throw e}}
+async function dbxUpload(path,obj,mode){const r=await dbxCall('https://content.dropboxapi.com/2/files/upload',{headers:{'Content-Type':'application/octet-stream',
+  'Dropbox-API-Arg':dbxArg({path,mode:mode||'overwrite',autorename:false,mute:true})},body:JSON.stringify(obj)});return r.json()}
+async function dbxDownload(path){const r=await dbxCall('https://content.dropboxapi.com/2/files/download',{headers:{'Dropbox-API-Arg':dbxArg({path})}});return JSON.parse(await r.text())}
+async function dbxList(path){try{let j=await dbxApi('files/list_folder',{path}),out=j.entries;
+  while(j.has_more){j=await dbxApi('files/list_folder/continue',{cursor:j.cursor});out=out.concat(j.entries)}return out}
+  catch(e){if(e.status===409&&/not_found/.test(e.summary))return [];throw e}}
+
+const mobileBlocked=()=>!!(M.wifiOnly&&navigator.connection&&navigator.connection.type==='cellular');
+function scheduleSync(ms=4000){clearTimeout(syncT);if(dbxOn())syncT=setTimeout(()=>dbxSync(),ms)}
+/* What to do, given Dropbox's copy and this phone's. Returns 'adopt' | 'conflict' | 'push' | 'add' | 'none'. */
+function syncPlan(remoteRev,localRev,dirty,localHasData){
+  if(remoteRev&&remoteRev!==localRev){
+    if(!localHasData||(localRev&&!dirty))return 'adopt';   // phone empty, or phone was in step and Dropbox moved on
+    return 'conflict';                                      // both changed (or first connect with data on both)
+  }
+  if(!remoteRev)return localHasData?'add':'none';
+  return dirty?'push':'none';
+}
+async function pushLive(mode){
+  const seq=M.seq;
+  const res=await dbxUpload(LIVE,payload(),mode||(M.dbxRev?{'.tag':'update',update:M.dbxRev}:'add'));
+  M.dbxRev=res.rev;M.lastSync=Date.now();M.syncError=null;M.conflict=null;
+  if(M.seq===seq){M.dirty=false;M.changes=0}
+  await saveMeta();
+}
+async function adoptRemote(){
+  const rm=await dbxMeta(LIVE);if(!rm)return;
+  S=readPayload(await dbxDownload(LIVE));await kvPut('data',S);
+  M.dbxRev=rm.rev;M.dirty=false;M.changes=0;M.conflict=null;M.lastSync=Date.now();M.syncError=null;await saveMeta();
+  render();if(V.page)renderPage();
+  if(needsRefresh())setTimeout(()=>refreshAll(false),500);
+}
+async function dbxSync(opts={}){
+  if(!dbxOn()||syncing)return;
+  if(!navigator.onLine){if(opts.manual)toast("You're offline. Changes will go to Dropbox when you're back online.");paintStatus();return}
+  if(mobileBlocked()&&!opts.manual){paintStatus();return}
+  syncing=true;lastCheck=Date.now();paintStatus();let ok=false,failed=false;
+  try{
+    const rm=await dbxMeta(LIVE);
+    const plan=syncPlan(rm&&rm.rev,M.dbxRev,!!M.dirty,hasData());
+    if(plan==='adopt'){const had=hasData();await adoptRemote();toast(had?'Loaded the latest from Dropbox':`${Object.keys(S.shows).length} shows and ${S.movies.length} movies loaded from Dropbox`)}
+    else if(plan==='conflict'){M.conflict={rev:rm.rev,when:rm.server_modified};await saveMeta()}
+    else if(plan==='push')await pushLive();
+    else if(plan==='add')await pushLive('add');
+    if(plan!=='conflict'){ok=true;if(plan==='none'){M.lastSync=Date.now();M.syncError=null;await saveMeta()}}
+  }catch(e){
+    if(e instanceof DbxErr&&e.status===409&&/conflict/.test(e.summary)){
+      const rm=await dbxMeta(LIVE).catch(()=>null);M.conflict={rev:rm&&rm.rev,when:rm&&rm.server_modified};
+    }else{failed=true;M.syncError=(!navigator.onLine||e instanceof TypeError)?"Couldn't reach Dropbox. It will try again shortly.":String(e.message||e)}
+    await saveMeta();if(opts.manual&&M.syncError)toast(M.syncError);
+  }finally{syncing=false}
+  if(ok&&opts.manual)toast('Dropbox is up to date');
+  if(ok&&hasData())maybeSnapshot(false).catch(()=>{});
+  paintStatus();if(V.page&&V.page.type==='backup')renderPage();
+  clearTimeout(retryT);if(failed&&dbxOn())retryT=setTimeout(()=>dbxSync(),120000);
+  if(ok&&M.dirty)scheduleSync(1500); // changes made while it was uploading
+}
+async function maybeSnapshot(force){
+  const day=new Date().toDateString();
+  if(!force&&M.lastSnapDay===day)return;
+  await dbxUpload(snapName(force?'manual':''),payload(),'overwrite');
+  M.lastSnapDay=day;M.lastSnap=Date.now();await saveMeta();
+  if(V.page&&V.page.type==='backup')renderPage();
+  pruneSnapshots().catch(()=>{});
+}
+async function pruneSnapshots(){
+  const cut=Date.now()-60*DAY;
+  for(const e of await dbxList('/snapshots')){const m=e.name.match(/(\d{4})-(\d{2})-(\d{2})/);
+    if(e['.tag']==='file'&&m&&new Date(+m[1],m[2]-1,+m[3]).getTime()<cut){try{await dbxApi('files/delete_v2',{path:e.path_lower})}catch(x){}}}
+}
+async function listSnapshots(){
+  const el=$('#snapList');if(!el)return;el.innerHTML='<p class="note">Looking in Dropbox…</p>';
+  try{const list=(await dbxList('/snapshots')).filter(e=>e['.tag']==='file'&&/\.json$/i.test(e.name)).sort((a,b)=>String(b.server_modified).localeCompare(String(a.server_modified)));
+    el.innerHTML=list.length?list.slice(0,60).map(e=>`<div class="snap"><div class="t"><b>${esc(fmtWhen(e.server_modified))}</b>
+      <small>${/before-restore/.test(e.name)?'Saved before a restore · ':/replaced/.test(e.name)?'Dropbox copy that was replaced · ':/manual/.test(e.name)?'Snapshot now · ':'Daily · '}${(e.size/1024).toFixed(0)} KB</small></div>
+      <button class="btn small" data-act="dbx-use" data-path="${esc(e.path_lower)}">Use this</button></div>`).join('')
+      :'<p class="note">No snapshots in Dropbox yet.</p>';
+  }catch(e){el.innerHTML=`<p class="note" style="color:var(--bad)">Couldn't list Dropbox snapshots: ${esc(e.message||e)}</p>`}
+}
+async function replaceAllWith(newData,label){
+  if(dbxOn()&&hasData()){try{await dbxUpload(snapName('before-restore'),payload(),'overwrite')}
+    catch(e){toast("Couldn't save a snapshot to Dropbox first, so nothing was changed. Check you're online.");return false}}
+  S=newData;await kvPut('data',S);M.conflict=null;save();render();if(V.page)renderPage();
+  toast(`${label}: ${Object.keys(S.shows).length} shows and ${S.movies.length} movies`);
+  if(dbxOn())dbxSync();
+  if(needsRefresh())setTimeout(()=>refreshAll(false),500);
+  return true;
+}
+async function resolveConflict(useDropbox){
+  if(!navigator.onLine){toast("You're offline. Try again when you're online.");return}
+  syncing=true;paintStatus();
+  try{
+    if(useDropbox){if(hasData())await dbxUpload(snapName('before-restore'),payload(),'overwrite');
+      syncing=false;await adoptRemote();toast('Using the Dropbox copy. This phone\'s copy was saved as a snapshot.')}
+    else{try{await dbxApi('files/copy_v2',{from_path:LIVE,to_path:snapName('replaced'),autorename:true})}catch(e){}
+      await pushLive('overwrite');toast('Kept this phone\'s copy. The Dropbox copy was saved as a snapshot.')}
+  }catch(e){toast('That didn\'t work: '+(e.message||e))}
+  syncing=false;paintStatus();if(V.page)renderPage();
+}
+async function dbxDisconnect(){
+  try{await dbxApi('auth/token/revoke')}catch(e){}
+  M.dbx=null;M.dbxRev=null;M.conflict=null;M.syncError=null;await saveMeta();
+  clearTimeout(syncT);paintStatus();if(V.page)renderPage();toast('Dropbox disconnected. Everything already in Dropbox is kept.');
 }
 
 /* ---------- actions ---------- */
@@ -572,7 +955,7 @@ async function refreshAll(force){
   if(!navigator.onLine){if(force)toast("You're offline. Showing saved episode lists.");return}
   V.refreshing=true;render();let ok=0,fail=0;
   for(const sh of list){
-    if(!force&&sh.status==='Ended'&&Date.now()-sh.updated<7*DAY)continue;
+    if(!force&&sh.status==='Ended'&&Date.now()-sh.updated<7*DAY&&hasSyn(sh))continue;
     try{const j=await fetchShow(sh.id);if(j){S.shows[sh.id]=fromApi(j,S.shows[sh.id]||sh);ok++}}catch(e){fail++}
     await sleep(350);
   }
@@ -606,18 +989,15 @@ async function bulkAdd(){
   done.innerHTML='Done. If a show matched the wrong series, open it, tap Remove, then add the right one with the year in brackets.';log.appendChild(done);
 }
 function backup(){
-  const blob=new Blob([JSON.stringify({app:'nextup',version:1,exported:new Date().toISOString(),...S},null,1)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify(payload())],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download=`nextup-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();
   setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);toast('Backup saved to Downloads');
 }
 $('#restoreFile').addEventListener('change',async e=>{
   const f=e.target.files[0];e.target.value='';closeMenu();if(!f)return;
-  try{const d=JSON.parse(await f.text());if(!d.shows||!Array.isArray(d.movies))throw 0;
-    try{localStorage.setItem('nextup.before-restore',JSON.stringify(S))}catch(x){}
-    S={shows:d.shows,movies:d.movies,lastRefresh:0};save();render();
-    toast(`Restored ${Object.keys(S.shows).length} shows and ${S.movies.length} movies`);refreshAll(false);
-  }catch(x){toast("That file isn't a Next Up backup")}
+  let d;try{d=readPayload(JSON.parse(await f.text()))}catch(x){toast("That file isn't a Next Up backup");return}
+  await replaceAllWith(d,'Restored');
 });
 
 let toastT;
@@ -628,10 +1008,10 @@ function toast(msg,undo){
   toastT=setTimeout(()=>t.hidden=true,undo?5000:2800);
 }
 function openMenu(){$('#menu').hidden=false;$('#scrim').hidden=false}
-function closeMenu(){$('#menu').hidden=true;$('#scrim').hidden=true}
-function armRemove(btn,fn){
+function closeMenu(){$('#menu').hidden=true;$('#sortMenu').hidden=true;$('#scrim').hidden=true}
+function armRemove(btn,fn,label='Tap again to remove'){
   if(btn.dataset.armed){fn();return}
-  btn.dataset.armed=1;const old=btn.textContent;btn.textContent='Tap again to remove';
+  btn.dataset.armed=1;const old=btn.textContent;btn.textContent=label;
   setTimeout(()=>{if(btn.isConnected){delete btn.dataset.armed;btn.textContent=old}},3500);
 }
 
@@ -649,7 +1029,46 @@ document.addEventListener('click',e=>{
     case 'bulk':closeMenu();if(p)history.replaceState({np:1},'');p?(V.page={type:'bulk'},renderPage()):openPage({type:'bulk'});break;
     case 'backup':closeMenu();backup();break;
     case 'about':closeMenu();openPage({type:'about'});break;
-    case 'add':openPage({type:'add',kind:V.tab==='movies'?'movie':'tv'});break;
+    case 'help':closeMenu();openPage({type:'help'});break;
+    case 'open-backup':closeMenu();if(p&&p.type==='backup')break;openPage({type:'backup'});break;
+    case 'sort':openSort();break;
+    case 'set-sort':{const k=el.dataset.k;if(V.tab==='movies'){V.msort=k;try{localStorage.setItem('nextup.msort',k)}catch(x){}}
+      else{V.sort=k;try{localStorage.setItem('nextup.sort',k)}catch(x){}}closeMenu();render();scrollTo(0,0);break}
+    case 'dbx-connect':closeMenu();dbxConnect();break;
+    case 'dbx-sync':dbxSync({manual:true});break;
+    case 'dbx-snap':el.disabled=true;maybeSnapshot(true).then(()=>toast('Snapshot saved to Dropbox')).catch(x=>{el.disabled=false;toast("Snapshot didn't save: "+(x.message||x))});break;
+    case 'dbx-list':listSnapshots();break;
+    case 'dbx-use':armRemove(el,async()=>{el.disabled=true;el.textContent='Restoring…';
+      try{const d=readPayload(await dbxDownload(el.dataset.path));await replaceAllWith(d,'Restored from snapshot')}
+      catch(x){el.disabled=false;el.textContent='Use this';toast("Couldn't restore that snapshot: "+(x.message||x))}},'Tap again to replace everything');break;
+    case 'dbx-disconnect':armRemove(el,dbxDisconnect,'Tap again to disconnect');break;
+    case 'conflict-dropbox':resolveConflict(true);break;
+    case 'conflict-phone':resolveConflict(false);break;
+    case 'add':openPage({type:'add',kind:V.tab==='movies'?'movie':'tv',suggest:V.tab==='suggested'});break;
+    case 'add-suggest':openPage({type:'add',kind:'tv',suggest:true});break;
+    case 'sg-kind':V.sgKind=el.dataset.k;render();break;
+    case 'sg-from':V.sgFrom=el.dataset.k;render();break;
+    case 'sg-pick':p.from=el.dataset.f;$('#sgFrom').value=p.from;document.querySelectorAll('[data-act=sg-pick]').forEach(c=>c.setAttribute('aria-pressed',c.dataset.f===p.from));$('#q').focus();break;
+    case 'expand':el.classList.toggle('open');break;
+    case 'ep-syn':{p.syn=p.syn||new Set();const id=+el.dataset.ep;p.syn.has(id)?p.syn.delete(id):p.syn.add(id);
+      const y=$('#page').scrollTop;renderPage();$('#page').scrollTop=y;break}
+    case 'sg-save':case 'sg-save-manual':{
+      const from=(p.from||'').trim(),note=(p.note||'').trim();
+      if(!from){toast('Type who suggested it first');$('#sgFrom').focus();break}
+      let item;
+      if(act==='sg-save-manual'){const t=(p.q||'').trim();if(!t)break;item={kind:'movie',title:t,year:'',image:'',summary:'',movie:{id:'m'+Date.now(),title:t,year:'',image:'',genre:'',runtime:0,rating:'',overview:''}}}
+      else if(p.kind==='tv'){const s=p.res[+el.dataset.ix];item={kind:'tv',tvId:s.id,title:s.name,year:s.premiered?s.premiered.slice(0,4):'',image:s.image?s.image.medium:'',summary:strip(s.summary)}}
+      else{const m=p.res[+el.dataset.ix];item={kind:'movie',title:m.title,year:m.year,image:m.image,summary:m.overview,movie:m}}
+      S.suggestions.push({id:'sg'+Date.now(),from,note,added:Date.now(),...item});save();
+      el.disabled=true;el.textContent='Saved';el.classList.remove('pri');toast(`Saved ${item.title} from ${from}`);break}
+    case 'sg-accept':{const x=S.suggestions.find(s=>s.id===el.dataset.id);if(!x)break;
+      if(x.kind==='tv'){addShowById(x.tvId,el).then(sh=>{if(!sh)return;sh.from=x.from;sh.fromNote=x.note;
+        S.suggestions=S.suggestions.filter(s=>s.id!==x.id);save();render();toast(`${x.title} added to your Shows`)})}
+      else{if(!S.movies.some(m=>m.id===x.movie.id))S.movies.push({...x.movie,watched:false,added:Date.now(),from:x.from,note:x.note});
+        S.suggestions=S.suggestions.filter(s=>s.id!==x.id);save();render();toast(`${x.title} added to your movie watchlist`)}
+      break}
+    case 'sg-remove':armRemove(el,()=>{const x=S.suggestions.find(s=>s.id===el.dataset.id);S.suggestions=S.suggestions.filter(s=>s.id!==el.dataset.id);save();render();
+      if(x)toast(`Removed ${x.title}`,()=>{S.suggestions.push(x);save();render()})},'Tap again');break;
     case 'add-movie':openPage({type:'add',kind:'movie'});break;
     case 'back':closePage();break;
     case 'open-show':{const sh=S.shows[+el.dataset.id];openPage({type:'show',id:+el.dataset.id,ptab:V.ptab||'overview'});if(sh)fetchBanner(sh);break}
@@ -702,12 +1121,25 @@ document.addEventListener('toggle',e=>{
 },true);
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.matches('[role=button]'))e.target.click();
-  if(e.key==='Escape'){if(!$('#menu').hidden)closeMenu();else closePage()}
+  if(e.key==='Enter'&&e.target.id==='sgFrom'){e.preventDefault();$('#q').focus()}
+  if(e.key==='Escape'){if(!$('#menu').hidden||!$('#sortMenu').hidden)closeMenu();else closePage()}
 });
 
-render();
-if(Date.now()-(S.lastRefresh||0)>6*36e5)refreshAll(false);
-if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+document.addEventListener('change',e=>{if(e.target.id==='wifiOnly'){M.wifiOnly=e.target.checked;saveMeta();paintStatus();if(!M.wifiOnly)dbxSync()}});
+document.addEventListener('visibilitychange',async()=>{
+  if(document.visibilityState==='hidden'){if(M.dirty)dbxSync();return}
+  const m=await kvGet('meta');                       // another window (e.g. the Dropbox sign-in tab) may have saved newer data
+  if(m&&(m.stamp||0)>(M.stamp||0)){M=m;S=await kvGet('data')||emptyData();render();if(V.page)renderPage()}
+  if(Date.now()-lastCheck>60000)dbxSync();
+});
+window.addEventListener('online',()=>dbxSync());
+(async()=>{
+  await loadAll();render();
+  await dbxReturn();
+  await dbxSync();
+  if(needsRefresh())refreshAll(false);
+  if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
 </script>
 </body>
 </html>
