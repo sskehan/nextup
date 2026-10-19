@@ -1,4 +1,4 @@
-# Next Up — user guide (version 1.02)
+# Next Up — user guide (version 1.03)
 
 Next Up tracks the TV shows you're watching and a watchlist of movies. It replaces Twee.
 It runs on your phone, works offline, and keeps a live backup in your own Dropbox.
@@ -31,10 +31,10 @@ Only program files go here. The repository is public, so **never upload a backup
 - **Filters:** All, To watch, Caught up, Finished.
 - **A show's page:**
   - **Overview** has the Up next card, progress and time left, details and cast.
-  - **Episodes** lists seasons newest first. **Tap an episode to read its synopsis.** Tap the eye to mark it watched. Press and hold an eye to mark everything up to that episode. **Watch all** does a whole season.
+  - **Episodes** has a button for each season along the top. **Tap an episode to read its synopsis.** Tap the tick circle to mark it watched. Press and hold a tick circle to mark everything up to that episode. **Watch all** does a whole season.
 - **Upcoming tab:** episodes aired this week that you haven't watched, then the next two months by day.
 - **Movies tab:** To watch and Watched. Open a movie and tap **Mark as watched**.
-  Movie search uses Apple's iTunes catalogue. Films still in cinemas and some streaming originals may be missing. Use **Not listed? Add** to add them by title.
+  Movie search uses TMDB and covers every film. A movie's page shows the Australian services that stream, rent or sell it. Unreleased movies on your watchlist appear on **Upcoming** on their Australian release date.
 - **Suggested tab (from friends):** tap **+**, type who suggested it and their comment, then search and tap **Save**.
   - You can filter by TV, Movies or friend.
   - **Start watching** / **Add to watchlist** moves it across, and the show or movie page shows who suggested it.
@@ -77,4 +77,5 @@ Your data is not affected. The version number is shown in **⋮** (bottom of the
 
 ## Where the information comes from
 - TV shows and episodes: TVmaze (free, no account).
-- Movies: Apple's public iTunes catalogue.
+- Movies: TMDB (themoviedb.org), with Australian streaming information from JustWatch. This product uses the TMDB API but is not endorsed or certified by TMDB.
+- TMDB API key: built into the app (personal use).

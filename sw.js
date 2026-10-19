@@ -1,5 +1,5 @@
 // Next Up offline support: app files are network-first (so updates arrive), posters are cached for offline viewing.
-const SHELL = 'nextup-shell-v3', IMG = 'nextup-img';
+const SHELL = 'nextup-shell-v4', IMG = 'nextup-img';
 const FILES = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(SHELL).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener('activate', e => {
